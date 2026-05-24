@@ -1,0 +1,6 @@
+{
+  "name": "Flowly",
+  "description": "Your second brain. Offline. Private. AI-powered.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
