@@ -24,7 +24,11 @@ import {
   ArrowUpRight,
   Sparkle,
   MoreVertical,
-  Laptop
+  Laptop,
+  ArrowLeft,
+  Wifi,
+  Battery,
+  Smartphone
 } from 'lucide-react';
 import { Project, Task, Note, ChatMessage } from '../types';
 
@@ -35,6 +39,7 @@ export default function InteractiveAppMockup() {
   // Navigation tabs in mockery
   type Tab = 'brief' | 'notes' | 'tasks' | 'calendar' | 'ai';
   const [activeTab, setActiveTab] = useState<Tab>('notes');
+  const [isEditingNote, setIsEditingNote] = useState<boolean>(false);
   
   // States of mockup
   const [projects] = useState<Project[]>([
@@ -290,819 +295,385 @@ export default function InteractiveAppMockup() {
   };
 
   return (
-    <div className="w-full" id="interactive-demo">
-      {/* Simulation Window Frame */}
-      <div className={`relative w-full rounded-2xl border ${
-        mockTheme === 'dark' 
-          ? 'bg-zinc-950/90 border-zinc-800 text-zinc-100 shadow-2xl shadow-violet-950/20' 
-          : 'bg-white border-zinc-200 text-zinc-800 shadow-xl shadow-zinc-200/50'
-      } overflow-hidden transition-all duration-300`}>
+    <div className="w-full flex flex-col items-center justify-center transition-all duration-300 md:py-6" id="interactive-demo">
+      {/* 
+        PREMIUM PHYSICAL ANDROID TOUCH DEVICE FRAME
+        This implements the requested stylish mobile mockup structure with hardware physical ridges, rounded bezel,
+        camera punch-hole notch, realistic status bar, dynamic light/dark modes, and bottom gestural navigation.
+      */}
+      <div className={`relative w-[340px] h-[670px] rounded-[48px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[10px] border-zinc-900 ${
+        mockTheme === 'dark' ? 'shadow-[#00FF94]/5 ring-1 ring-zinc-800' : 'shadow-zinc-300/40 ring-1 ring-zinc-200 border-zinc-350 bg-white'
+      }`}>
         
-        {/* Mock Window Topbar */}
-        <div className={`flex items-center justify-between px-4 py-3 border-b ${
-          mockTheme === 'dark' ? 'bg-zinc-900/60 border-zinc-800' : 'bg-zinc-50 border-zinc-200'
+        {/* physical tactile tactile ridge power buttons */}
+        <div className="absolute top-24 -left-[11px] w-[2px] h-10 bg-zinc-800 rounded-l" />
+        <div className="absolute top-36 -left-[11px] w-[2px] h-14 bg-zinc-800 rounded-l" />
+
+        {/* Dynamic front camera punch hole cutout notch */}
+        <div className="absolute top-2.5 left-1/2 transform -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-black border border-zinc-950 z-50 flex items-center justify-center">
+          <div className="w-1.5 h-1.5 rounded-full bg-zinc-850" />
+        </div>
+
+        {/* High fidelity Native Android Mobile Status Bar */}
+        <div className={`flex justify-between items-center px-6 pt-3 pb-1 text-[9.5px] font-mono tracking-tight font-black z-40 select-none ${
+          mockTheme === 'dark' ? 'text-zinc-500 bg-[#0c0c0c]' : 'text-zinc-600 bg-zinc-100 border-b border-zinc-200/50'
         }`}>
-          {/* OS Windows Dots */}
-          <div className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
-            <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
-            <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
-            <span className={`text-[11px] font-mono ml-2 ${mockTheme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>
-              flowly_desktop_v1.0.app
-            </span>
+          <div className="flex items-center gap-1">
+            <span>14:56</span>
+            <span className="text-[7.5px] px-1 py-[0.5px] bg-[#00FF94]/20 text-[#00FF94] font-black rounded-sm border border-[#00FF94]/30">5G</span>
           </div>
-
-          {/* Offline/Online indicators & Theme toggle */}
-          <div className="flex items-center gap-3">
-            {/* Local Badge */}
-            <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono ${
-              mockTheme === 'dark' ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-150 text-zinc-600'
-            }`}>
-              <CloudOff className="w-3 h-3 text-amber-500" />
-              <span>OFFLINE PORT</span>
-            </div>
-
-            {/* Simulated latency banner */}
-            <span className={`text-[10px] font-mono hidden md:inline ${mockTheme === 'dark' ? 'text-emerald-500' : 'text-emerald-600'}`}>
-              ● Latency: 0ms (Local Storage)
+          
+          <div className="flex items-center gap-1.5">
+            <span className="text-[8px] text-[#00FF94] font-extrabold uppercase tracking-widest flex items-center gap-0.5">
+              <CloudOff className="w-2.5 h-2.5 text-[#00FF94]" /> local
             </span>
-
-            {/* Toggle mock interface theme */}
-            <button 
-              onClick={() => setMockTheme(mockTheme === 'dark' ? 'light' : 'dark')}
-              className={`p-1.5 rounded transition-colors ${
-                mockTheme === 'dark' 
-                  ? 'hover:bg-zinc-800 text-zinc-400 hover:text-white' 
-                  : 'hover:bg-zinc-200 text-zinc-500 hover:text-black'
-              }`}
-              title="Toggle interactive dark/light app theme"
-            >
-              {mockTheme === 'dark' ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-            </button>
+            <Wifi className="w-3 h-3 text-[#00FF94]" />
+            <Battery className="w-3.5 h-3.5 text-[#00FF94]" />
           </div>
         </div>
 
-        {/* Application Layout */}
-        <div className="flex h-[550px] flex-col md:flex-row overflow-hidden font-sans">
-          
-          {/* Sidebar */}
-          <div className={`w-full md:w-56 flex-shrink-0 flex flex-col border-b md:border-b-0 md:border-r ${
-            mockTheme === 'dark' ? 'bg-zinc-950/50 border-zinc-900' : 'bg-zinc-50/50 border-zinc-200'
-          } p-3 overflow-y-auto`}>
-                       {/* Mock User Node */}
-            <div className="flex items-center gap-2.5 px-2 py-1 mb-4">
-              <div className="w-7 h-7 rounded-full bg-[#00FF94] flex items-center justify-center font-bold text-black text-xs">
-                M
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-xs font-semibold">My Second Brain</span>
-                <span className={`text-[9px] font-mono ${mockTheme === 'dark' ? 'text-zinc-500' : 'text-zinc-400'}`}>
-                  Owner: Morgan (Local Host)
-                </span>
-              </div>
-            </div>
-
-            {/* Local Search Input */}
-            <div className={`relative mb-4 flex items-center rounded-lg border ${
-              mockTheme === 'dark' ? 'bg-zinc-900 border-zinc-800' : 'bg-zinc-100 border-zinc-200'
-            } px-2.5 py-1.5`}>
-              <Search className="w-3.5 h-3.5 text-zinc-500 mr-2 flex-shrink-0" />
-              <input 
-                type="text" 
-                placeholder="Search everything..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-transparent border-0 outline-none text-xs w-full p-0 leading-none placeholder-zinc-500"
-              />
-              {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="p-0.5 text-zinc-500 hover:text-zinc-200">
-                  <X className="w-3 h-3" />
-                </button>
-              )}
-            </div>
-
-            {/* Navigation Lists */}
-            <div className="space-y-1 text-xs">
-              <button 
-                onClick={() => { setActiveTab('brief'); setSelectedProjectId(null); }}
-                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors text-left ${
-                  activeTab === 'brief' 
-                    ? 'bg-[#00FF94]/10 text-[#00FF94] font-bold' 
-                    : 'hover:bg-zinc-800/50 text-zinc-400 hover:text-zinc-200'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Sparkle className="w-3.5 h-3.5" />
-                  <span>Daily Morning Brief</span>
-                </div>
-                <span className="px-1 text-[8px] font-mono bg-emerald-950/30 border border-emerald-800/20 text-[#00FF94] rounded uppercase font-bold">AI</span>
-              </button>
-
-              <button 
-                onClick={() => { setActiveTab('notes'); }}
-                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors text-left ${
-                  activeTab === 'notes' && !selectedProjectId
-                    ? 'bg-zinc-800 text-white font-medium' 
-                    : (activeTab === 'notes' && selectedProjectId ? 'text-zinc-300' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50')
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>Notes Catalog</span>
-                </div>
-                <span className="bg-zinc-800 text-zinc-500 text-[10px] px-1.5 py-0.1 rounded-full">{notes.length}</span>
-              </button>
-
-              <button 
-                onClick={() => { setActiveTab('tasks'); }}
-                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors text-left ${
-                  activeTab === 'tasks' && !selectedProjectId
-                    ? 'bg-zinc-800 text-white font-medium' 
-                    : (activeTab === 'tasks' && selectedProjectId ? 'text-zinc-300' : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50')
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <CheckSquare className="w-3.5 h-3.5" />
-                  <span>Task Deck</span>
-                </div>
-                <span className="bg-zinc-800 text-zinc-500 text-[10px] px-1.5 py-0.1 rounded-full">
-                  {tasks.filter(t => !t.completed).length}
-                </span>
-              </button>
-
-              <button 
-                onClick={() => { setActiveTab('calendar'); setSelectedProjectId(null); }}
-                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-colors text-left ${
-                  activeTab === 'calendar' 
-                    ? 'bg-zinc-800 text-white font-medium' 
-                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>Local Calendar</span>
-                </div>
-              </button>
-
-              <button 
-                onClick={() => { setActiveTab('ai'); setSelectedProjectId(null); }}
-                className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-md transition-all text-left ${
-                  activeTab === 'ai' 
-                    ? 'bg-[#00FF94] text-black font-bold uppercase shadow-md shadow-[#00FF94]/20' 
-                    : 'bg-black border border-zinc-850 text-zinc-300 hover:border-[#00FF94]/30 hover:text-[#00FF94]'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Bot className="w-3.5 h-3.5" />
-                  <span className="font-semibold">Flowly AI Assistant</span>
-                </div>
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF94] opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF94]"></span>
-                </span>
-              </button>
-            </div>
-
-            {/* Projects Divider */}
-            <div className="mt-6 mb-2 px-2.5 flex items-center justify-between text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">
-              <span>Color-Coded Projects</span>
-              <Folder className="w-3 h-3 text-zinc-600" />
-            </div>
-
-            <div className="space-y-0.5 text-xs">
-              <button
-                onClick={() => setSelectedProjectId(null)}
-                className={`w-full text-left px-2.5 py-1 rounded ${
-                  selectedProjectId === null 
-                    ? 'text-white font-medium underline underline-offset-4 decoration-zinc-600' 
-                    : 'text-zinc-500 hover:text-zinc-300'
-                }`}
-              >
-                All Projects
-              </button>
-
-              {projects.map(proj => (
-                <button
-                  key={proj.id}
-                  onClick={() => {
-                    setSelectedProjectId(proj.id);
-                    if (activeTab === 'ai' || activeTab === 'brief' || activeTab === 'calendar') {
-                      setActiveTab('notes');
-                    }
-                  }}
-                  className={`w-full flex items-center gap-2 px-2.5 py-1 rounded transition-colors text-left ${
-                    selectedProjectId === proj.id 
-                      ? 'bg-zinc-800 text-white font-medium' 
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/40'
-                  }`}
-                >
-                  <span className={`w-2.5 h-2.5 rounded-full ${proj.color.split(' ')[0]}`}></span>
-                  <span className="truncate">{proj.name}</span>
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-auto pt-4 text-[10px] font-mono text-zinc-500 border-t border-zinc-900/50">
-              <p>🗄️ Database: Local storage</p>
-              <p className="mt-1">🔒 Sync Type: None (Private)</p>
-            </div>
+        {/* Dynamic Android Header */}
+        <div className={`flex items-center justify-between px-4.5 py-3 border-b z-40 select-none ${
+          mockTheme === 'dark' ? 'bg-[#0f0f0f] border-zinc-900 border-b-[1.5px]' : 'bg-zinc-55 border-zinc-205 border-b bg-zinc-50'
+        }`}>
+          <div className="flex items-center gap-1.5 font-display font-black text-xs">
+            <Bot className="w-4 h-4 text-[#00FF52]" />
+            <span className="text-[10px] font-mono tracking-widest text-[#00FF94] uppercase font-black">Flowly Android</span>
           </div>
 
-          {/* Core Content Area */}
-          <div className="flex-1 flex overflow-hidden">
-            
-            {/* === TAB 1: DAILY BRIEF === */}
-            {activeTab === 'brief' && (
-              <div className="flex-1 p-5 overflow-y-auto space-y-4 text-left">
-                <div className="flex items-center justify-between border-b pb-3 border-zinc-800">
-                  <div>
-                    <h2 className="text-lg font-display font-semibold tracking-tight">Your Daily AI Morning Brief</h2>
-                    <p className={`text-xs ${mockTheme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>Compiled completely on route using on-device context keys</p>
-                  </div>
-                  <Sparkle className="w-5 h-5 text-[#00FF94] animate-pulse" />
+          <button 
+            onClick={() => setMockTheme(mockTheme === 'dark' ? 'light' : 'dark')}
+            className={`p-1.5 rounded-xl transition-all ${
+              mockTheme === 'dark' ? 'bg-zinc-900 text-zinc-400' : 'bg-zinc-200 text-zinc-700'
+            }`}
+            title="Toggle theme on mobile"
+          >
+            {mockTheme === 'dark' ? <Sun className="w-3.5 h-3.5 text-[#00FF94]" /> : <Moon className="w-3.5 h-3.5 text-zinc-800" />}
+          </button>
+        </div>
+
+        {/* Dynamic App Mockup Stage viewport layout */}
+        <div className={`flex-grow flex flex-col overflow-hidden ${
+          mockTheme === 'dark' ? 'bg-[#060606]' : 'bg-white text-zinc-900'
+        }`}>
+
+          {/* TAB 1: MORNING SUMMARY */}
+          {activeTab === 'brief' && (
+            <div className="flex-grow overflow-y-auto p-4 space-y-4 text-left">
+              <div className="flex items-center justify-between border-b pb-2 border-zinc-900">
+                <div>
+                  <h2 className="text-xs font-display font-black text-white uppercase tracking-wider">Morning Brief</h2>
+                  <p className="text-[8px] text-[#00FF94] font-mono">On-device sqlite telemetry</p>
                 </div>
+                <Sparkle className="w-3.5 h-3.5 text-[#00FF94] animate-pulse" />
+              </div>
 
-                <div className={`p-4 rounded-xl border ${
-                  mockTheme === 'dark' ? 'bg-zinc-900/40 border-[#00FF94]/20' : 'bg-[#00FF94]/5 border-[#00FF94]/10'
-                } space-y-3`}>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">☕</span>
-                    <h3 className="font-semibold text-sm">Good morning, Morgan. Here is your offline telemetry summary:</h3>
-                  </div>
-                  
-                  <p className="text-xs leading-relaxed text-zinc-400">
-                    You have <strong className="text-[#00FF94]">4 active tasks</strong> scheduled or pending for today, including <strong className="text-rose-400">3 high-priority objectives</strong>. Everything remains locally preserved.
-                  </p>
+              <div className={`p-3 rounded-2xl border ${
+                mockTheme === 'dark' ? 'bg-zinc-950/70 border-zinc-900' : 'bg-[#00FF94]/5 border-emerald-100'
+              } space-y-2.5`}>
+                <p className="text-[10px] text-zinc-400 leading-relaxed">
+                  Morgan, your private SQLite logs confirm <strong className="text-[#00FF94]">{tasks.filter(t => !t.completed).length} pending tasks</strong> scheduled, with <strong className="text-rose-450 font-bold">3 High priority objectives</strong> active today.
+                </p>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
-                    <div className="p-3 rounded-lg bg-zinc-950/40 border border-zinc-800 space-y-1.5">
-                      <span className="text-xs font-semibold text-zinc-400">💡 Today's Quick Focus Focus</span>
-                      <p className="text-xs text-zinc-300">
-                        Work is heavy on <span className="text-sky-400">#Marketing Launch</span>. The designer meeting requires review files. Consider resolving the local hashing script first to clear dependencies.
-                      </p>
-                    </div>
-
-                    <div className="p-3 rounded-lg bg-zinc-950/40 border border-zinc-800 space-y-1.5">
-                      <span className="text-xs font-semibold text-zinc-400">🔥 Streak Status</span>
-                      <p className="text-xs text-zinc-300">
-                        7 Days Consistent Local Commits. You completed task <strong>Setup deploy script</strong> yesterday!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Unresolved Tasks List in brief */}
-                <div className="space-y-2">
-                  <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">High Priority Action Items for Today</h4>
-                  <div className="space-y-1">
-                    {tasks.filter(t => !t.completed && t.priority === 'High').map(t => (
-                      <div key={t.id} className="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/20 border border-zinc-800/60 hover:bg-zinc-900/40 transition-colors">
-                        <div className="flex items-center gap-2">
-                          <CheckSquare className="w-3.5 h-3.5 text-zinc-600" />
-                          <span className="text-xs font-medium">{t.title}</span>
-                        </div>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-950/40 border border-rose-900/30 text-rose-400 font-semibold uppercase">{t.priority}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="p-3 border border-dashed border-zinc-800 rounded-lg flex items-center justify-between text-xs text-zinc-500">
-                  <span>How was this breakfast brief generated?</span>
-                  <span className="font-mono text-[10px] text-zinc-500">Local Groq compilation (llama-3.3-70b-versatile)</span>
+                <div className="p-2.5 rounded-xl bg-zinc-900/40 border border-zinc-900">
+                  <span className="text-[8px] font-mono font-bold text-[#00FF94] uppercase">💡 Sweep Priority</span>
+                  <p className="text-[9.5px] text-zinc-400 mt-1">Website redesign requires designers review first for final layout assets.</p>
                 </div>
               </div>
-            )}
 
-            {/* === TAB 2: NOTES CATALOG === */}
-            {activeTab === 'notes' && (
-              <div className="flex-1 flex overflow-hidden">
-                {/* Notes list */}
-                <div className={`w-48 flex-shrink-0 border-r ${
-                  mockTheme === 'dark' ? 'border-zinc-900 bg-zinc-950/20' : 'border-zinc-200 bg-zinc-50/20'
-                } flex flex-col`}>
-                  <div className="p-2 border-b border-zinc-800/40 flex items-center justify-between text-[10px] uppercase font-semibold text-zinc-500">
-                    <span>Notes ({filteredNotes.length})</span>
+              {/* Tasks preview List */}
+              <div className="space-y-1.5">
+                <span className="text-[8px] font-mono font-bold text-zinc-500 uppercase tracking-widest block">Incomplete Priorities:</span>
+                {tasks.filter(t => !t.completed && t.priority === 'High').map(t => (
+                  <div key={t.id} className="flex items-center justify-between p-2.5 rounded-xl bg-zinc-950 border border-zinc-900 text-[10px]">
+                    <span className="text-zinc-200 truncate pr-3">{t.title}</span>
+                    <span className="text-[7.5px] font-mono px-1 rounded bg-rose-950/40 text-rose-455 text-rose-400 border border-rose-900/30 font-bold">HIGH</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 2: NOTES VAULT CARD INDEX */}
+          {activeTab === 'notes' && (
+            <div className="flex-grow flex flex-col overflow-hidden">
+              {!isEditingNote ? (
+                <div className="flex-grow flex flex-col overflow-hidden p-4 space-y-3 text-left">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-xs font-display font-black text-white uppercase tracking-wider">Notes Vault</h2>
+                      <p className="text-[8px] text-zinc-550 text-zinc-500 font-mono font-bold">Preserved indexes ({notes.length})</p>
+                    </div>
                     <button 
                       onClick={() => {
                         const newNote: Note = {
                           id: `n_${Date.now()}`,
-                          title: 'Untitled Note',
-                          content: '# Untitled Note\nType markdown content here...',
-                          projectId: selectedProjectId || 'p1',
-                          tags: ['new'],
+                          title: 'New Secure Entry',
+                          content: '# New Secure Entry\nType secure notes details here...',
+                          projectId: 'p1',
+                          tags: ['ideas'],
                           pinned: false,
                           archived: false,
                           updatedAt: 'Just now'
                         };
                         setNotes([newNote, ...notes]);
                         setSelectedNoteId(newNote.id);
+                        setIsEditingNote(true);
                       }}
-                      className="p-1 rounded hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
-                      title="Add a new note to local brain"
+                      className="p-1 px-3 rounded-lg bg-[#00FF94] text-black text-[9px] font-mono font-black uppercase tracking-wider"
                     >
-                      <Plus className="w-3.5 h-3.5" />
+                      <Plus className="w-3 h-3 text-black" /> WRITE
                     </button>
                   </div>
-                  <div className="flex-1 overflow-y-auto space-y-1 p-1">
-                    {filteredNotes.map(n => (
-                      <button
-                        key={n.id}
-                        onClick={() => setSelectedNoteId(n.id)}
-                        className={`w-full text-left p-2 rounded-md transition-all ${
-                          selectedNoteId === n.id 
-                            ? 'bg-zinc-800 text-white' 
-                            : 'hover:bg-zinc-900/50 text-zinc-400 hover:text-zinc-300'
-                        }`}
-                      >
-                        <div className="flex items-center gap-1">
-                          {n.pinned && <Pin className="w-2.5 h-2.5 text-[#00FF94] flex-shrink-0 transform rotate-45" />}
-                          <p className="text-xs font-medium truncate">{n.title || 'Untitled'}</p>
-                        </div>
-                        <p className="text-[10px] text-zinc-500 mt-1 truncate">{n.content.replace(/[#*`\n]/g, '')}</p>
-                        <div className="flex items-center gap-1 mt-1 flex-wrap">
-                          {n.tags.slice(0, 2).map((t, i) => (
-                            <span key={i} className="text-[8px] px-1 bg-zinc-900 border border-zinc-800 rounded font-mono text-zinc-400">
-                              #{t}
-                            </span>
-                          ))}
-                        </div>
-                      </button>
-                    ))}
-                    {filteredNotes.length === 0 && (
-                      <div className="p-4 text-center text-xs text-zinc-600">No notes matched query.</div>
-                    )}
-                  </div>
-                </div>
 
-                {/* Active Note Editor Preview */}
-                <div className="flex-1 flex flex-col overflow-hidden text-left bg-zinc-950/10">
-                  {activeNote ? (
-                    <>
-                      {/* Editor top actions */}
-                      <div className="flex items-center justify-between p-3 border-b border-zinc-900 bg-zinc-900/20">
-                        <div className="flex items-center gap-1 text-[10px] font-mono text-zinc-500">
-                          <span>Updated: {activeNote.updatedAt}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          {/* AI Assistant context shortcuts */}
-                          <button 
-                            onClick={() => handleInlineAiAction('summary')}
-                            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-emerald-950/30 border border-emerald-800/30 text-[#00FF94] hover:bg-emerald-950/65 transition-all text-[11px] font-medium"
-                          >
-                            <Sparkles className="w-3 h-3 text-[#00FF94]" />
-                            <span>AI Summarize</span>
-                          </button>
-                          
-                          <button 
-                            onClick={() => handleInlineAiAction('extract')}
-                            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-950/50 border border-blue-800/40 text-blue-400 hover:bg-blue-900/80 transition-all text-[11px] font-medium"
-                          >
-                            <Plus className="w-3 h-3 text-blue-400" />
-                            <span>AI Actions Extract</span>
-                          </button>
-
-                          <button 
-                            onClick={(e) => handleTogglePinNote(activeNote.id, e)}
-                            className={`p-1.5 rounded hover:bg-zinc-800 transition-colors ${activeNote.pinned ? 'text-[#00FF94]' : 'text-zinc-500'}`}
-                            title={activeNote.pinned ? "Pinned Note" : "Pin Note"}
-                          >
-                            <Pin className="w-3.5 h-3.5 transform rotate-45" />
-                          </button>
-
-                          <button 
-                            onClick={(e) => handleArchiveNote(activeNote.id, e)}
-                            className="p-1.5 rounded hover:bg-zinc-800 text-zinc-500 hover:text-rose-400 transition-colors"
-                            title="Archive Note"
-                          >
-                            <Archive className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Editor Fields */}
-                      <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                        <input 
-                          type="text" 
-                          value={activeNote.title}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setNotes(prev => prev.map(n => n.id === activeNote.id ? { ...n, title: val } : n));
-                          }}
-                          className={`w-full bg-transparent text-lg font-display font-semibold outline-none border-b border-transparent focus:border-zinc-800 pb-1.5 ${
-                            mockTheme === 'dark' ? 'text-white' : 'text-zinc-900'
-                          }`}
-                          placeholder="Untitled Note Key"
-                        />
-
-                        {/* Tags */}
-                        <div className="flex items-center gap-2 text-xs flex-wrap">
-                          <span className="text-zinc-500 font-mono text-[10px]">TAGS:</span>
-                          {activeNote.tags.map((tag, i) => (
-                            <span key={i} className="px-1.5 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400 font-mono text-[10px] flex items-center gap-1">
-                              #{tag}
-                              <button 
-                                onClick={() => {
-                                  setNotes(prev => prev.map(n => n.id === activeNote.id ? { ...n, tags: n.tags.filter(t => t !== tag) } : n));
-                                }}
-                                className="text-zinc-600 hover:text-rose-400"
-                              >
-                                &times;
-                              </button>
-                            </span>
-                          ))}
-                          <button 
-                            onClick={() => {
-                              const tagInput = prompt("Enter tag name (no #):");
-                              if (tagInput) {
-                                setNotes(prev => prev.map(n => n.id === activeNote.id ? { ...n, tags: [...n.tags, tagInput.trim().toLowerCase()] } : n));
-                              }
-                            }}
-                            className="px-1.5 py-0.5 rounded border border-dashed border-zinc-800 text-zinc-500 hover:text-zinc-300 text-[10px] flex items-center gap-0.5"
-                          >
-                            <Plus className="w-2.5 h-2.5" /> Tag
-                          </button>
-                        </div>
-
-                        {/* Rich text editing area preview */}
-                        <textarea 
-                          value={activeNote.content}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setNotes(prev => prev.map(n => n.id === activeNote.id ? { ...n, content: val } : n));
-                          }}
-                          className={`w-full h-64 bg-transparent resize-none outline-none font-mono text-xs leading-relaxed ${
-                            mockTheme === 'dark' ? 'text-zinc-300' : 'text-zinc-700'
-                          }`}
-                          placeholder="Markdown files support..."
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center text-zinc-500 p-8">
-                      <FileText className="w-10 h-10 text-zinc-700 mb-2" />
-                      <p className="text-xs">Select or add a local markdown note to begin offline compilation.</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* === TAB 3: TASK DECK === */}
-            {activeTab === 'tasks' && (
-              <div className="flex-1 flex flex-col overflow-hidden text-left p-5 space-y-4">
-                <div className="flex items-center justify-between border-b pb-3 border-zinc-800">
-                  <div>
-                    <h2 className="text-lg font-display font-semibold tracking-tight">Your Task Backlog</h2>
-                    <p className={`text-xs ${mockTheme === 'dark' ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                      {selectedProjectId ? `Filtered by ${projects.find(p=>p.id===selectedProjectId)?.name}` : 'Tracking tasks fully client-side'}
-                    </p>
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 text-zinc-400">
-                    Offline Lock Active
-                  </span>
-                </div>
-
-                {/* Quick Add Form */}
-                <form onSubmit={handleAddTask} className="flex gap-2 items-end bg-zinc-900/20 p-3 rounded-lg border border-zinc-800/80">
-                  <div className="flex-1 space-y-1.5">
-                    <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Add Task</label>
+                  <div className="relative flex items-center rounded-lg border border-zinc-90 w-full border-zinc-900 bg-zinc-950 px-2.5 py-1.5 mb-1">
+                    <Search className="w-3.5 h-3.5 text-zinc-600 mr-2 shrink-0" />
                     <input 
                       type="text" 
-                      placeholder="e.g., Audit sqlite indexes"
-                      value={newTaskTitle}
-                      onChange={(e) => setNewTaskTitle(e.target.value)}
-                      className="w-full bg-transparent text-xs rounded border border-zinc-800 px-3 py-2 text-zinc-200 outline-none focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700"
+                      placeholder="Search markdown keys..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="bg-transparent text-[9.5px] w-full outline-none text-zinc-200 placeholder-zinc-550 text-zinc-500"
                     />
                   </div>
-                  
-                  <div className="w-24 space-y-1.5">
-                    <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Priority</label>
-                    <select 
-                      value={newTaskPriority}
-                      onChange={(e) => setNewTaskPriority(e.target.value as any)}
-                      className="w-full bg-zinc-950 text-xs rounded border border-zinc-800 p-1.5 text-zinc-300 outline-none focus:border-zinc-700"
-                    >
-                      <option value="High">High</option>
-                      <option value="Medium">Medium</option>
-                      <option value="Low">Low</option>
-                    </select>
-                  </div>
 
-                  <div className="w-32 space-y-1.5">
-                    <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">Project</label>
-                    <select 
-                      value={newTaskProject}
-                      onChange={(e) => setNewTaskProject(e.target.value)}
-                      className="w-full bg-zinc-950 text-xs rounded border border-zinc-800 p-1.5 text-zinc-300 outline-none focus:border-zinc-700"
-                    >
-                      {projects.map(p => (
-                        <option key={p.id} value={p.id}>{p.name}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <button 
-                    type="submit"
-                    className="p-2 px-3 rounded bg-[#00FF94] hover:bg-emerald-400 text-black text-xs font-bold uppercase flex items-center gap-1.5 transition-colors"
-                  >
-                    <Plus className="w-3.5 h-3.5" /> ADD
-                  </button>
-                </form>
-
-                {/* Tasks List */}
-                <div className="flex-1 overflow-y-auto space-y-1.5">
-                  {filteredTasks.map(t => {
-                    const matchedProj = projects.find(p => p.id === t.projectId);
-                    return (
-                      <div 
-                        key={t.id} 
-                        className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
-                          t.completed 
-                            ? 'bg-zinc-950/20 border-zinc-950 opacity-40' 
-                            : 'bg-zinc-950/40 border-zinc-900 hover:border-zinc-800'
+                  <div className="flex-grow overflow-y-auto space-y-2">
+                    {filteredNotes.map(n => (
+                      <button 
+                        key={n.id}
+                        onClick={() => {
+                          setSelectedNoteId(n.id);
+                          setIsEditingNote(true);
+                        }}
+                        className={`w-full text-left p-3 rounded-xl border ${
+                          selectedNoteId === n.id ? 'bg-zinc-950 border-[#00FF94]' : 'bg-black/40 border-zinc-900'
                         }`}
                       >
-                        <div className="flex items-center gap-3">
-                          <button 
-                            onClick={() => handleToggleTask(t.id)}
-                            className="text-zinc-600 hover:text-[#00FF94] p-0.5"
-                          >
-                            <div className={`w-4 items-center justify-center flex h-4 rounded border ${
-                              t.completed ? 'bg-zinc-850 border-[#00FF94] text-[#00FF94]' : 'border-zinc-700'
-                            }`}>
-                              {t.completed && <Check className="w-3 h-3 text-[#00FF94]" />}
-                            </div>
-                          </button>
-
-                          <div>
-                            <p className={`text-xs font-medium leading-normal ${
-                              t.completed ? 'line-through text-zinc-500 font-normal' : ''
-                            }`}>
-                              {t.title}
-                            </p>
-                            
-                            <div className="flex items-center gap-2 mt-1">
-                              {matchedProj && (
-                                <span className="flex items-center gap-1 text-[9px] font-mono text-zinc-500">
-                                  <span className={`w-1.5 h-1.5 rounded-full ${matchedProj.color.split(' ')[0]}`}></span>
-                                  {matchedProj.name}
-                                </span>
-                              )}
-                              
-                              {t.dueDate && (
-                                <span className="text-[9px] font-mono text-zinc-500">
-                                  📅 {t.dueDate}
-                                </span>
-                              )}
-                            </div>
-                          </div>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[10px] font-bold text-white truncate">{n.title}</span>
+                          <span className="text-[7.5px] font-mono text-zinc-500 shrink-0">{n.updatedAt}</span>
                         </div>
-
-                        {/* Right side priorities/actions */}
-                        <div className="flex items-center gap-2.5">
-                          {/* Priority tag */}
-                          <span className={`text-[8px] px-1.5 py-0.1 border rounded font-mono font-semibold uppercase ${
-                            t.priority === 'High' 
-                              ? 'bg-rose-950/20 border-rose-900/30 text-rose-400' 
-                              : t.priority === 'Medium' 
-                                ? 'bg-amber-950/20 border-amber-900/30 text-amber-500' 
-                                : 'bg-zinc-900 border-zinc-800 text-zinc-500'
-                          }`}>
-                            {t.priority}
-                          </span>
-
-                          {/* Star */}
-                          <button 
-                            onClick={() => handleToggleStarTask(t.id)}
-                            className={`p-0.5 transition-colors ${t.starred ? 'text-amber-500' : 'text-zinc-600 hover:text-zinc-400'}`}
-                          >
-                            <Star className="w-3.5 h-3.5" fill={t.starred ? "currentColor" : "none"} />
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                  {filteredTasks.length === 0 && (
-                    <div className="p-8 text-center text-zinc-500 text-xs">No tasks matched search filter inside storage.</div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* === TAB 4: CALENDAR VIEW === */}
-            {activeTab === 'calendar' && (
-              <div className="flex-1 flex flex-col text-left p-5 space-y-4 overflow-y-auto">
-                <div className="flex items-center justify-between border-b pb-3 border-zinc-800">
-                  <div>
-                    <h2 className="text-lg font-display font-semibold tracking-tight">Offline Calendar Timeline</h2>
-                    <p className="text-xs text-zinc-400">Syncs locally to index task deadlines instantly</p>
-                  </div>
-                  <Calendar className="w-5 h-5 text-zinc-500" />
-                </div>
-
-                {/* Calendar Layout */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Calendar main map */}
-                  <div className="md:col-span-2 p-3 bg-zinc-900/40 rounded-xl border border-zinc-900">
-                    <div className="flex items-center justify-between mb-3 text-xs font-semibold px-1">
-                      <span>May 2026</span>
-                      <div className="flex gap-2">
-                        <span className="text-[10px] text-zinc-500 cursor-pointer hover:text-white">&larr; Pred</span>
-                        <span className="text-[10px] text-zinc-500 cursor-pointer hover:text-white">Next &rarr;</span>
-                      </div>
-                    </div>
-                    {/* Month Days mock */}
-                    <div className="grid grid-cols-7 gap-1 text-[10px] font-mono text-center mb-1 text-zinc-500">
-                      <div>SU</div><div>MO</div><div>TU</div><div>WE</div><div>TH</div><div>FR</div><div>SA</div>
-                    </div>
-                    <div className="grid grid-cols-7 gap-1 text-center font-mono">
-                      {/* empty days */}
-                      <div className="text-[10px] text-zinc-800 p-2 border border-zinc-950/20">26</div>
-                      <div className="text-[10px] text-zinc-800 p-2 border border-zinc-950/20">27</div>
-                      <div className="text-[10px] text-zinc-800 p-2 border border-zinc-950/20">28</div>
-                      <div className="text-[10px] text-zinc-800 p-2 border border-zinc-950/20">29</div>
-                      <div className="text-[10px] text-zinc-800 p-2 border border-zinc-950/20">30</div>
-                      <div className="text-[10px] text-zinc-500 p-2 border border-zinc-950/20">1</div>
-                      <div className="text-[10px] text-zinc-500 p-2 border border-zinc-950/20">2</div>
-                      {/* Row 2 */}
-                      {[3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map(d => (
-                        <div key={d} className="text-[10px] p-2 hover:bg-zinc-800 text-zinc-400 rounded-md cursor-pointer border border-transparent">
-                          {d}
-                        </div>
-                      ))}
-                      {/* Active Day May 24 */}
-                      <div className="text-[10px] p-2 bg-[#00FF94] font-black text-black rounded-md cursor-pointer relative">
-                        24
-                        <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-rose-500 rounded-full"></span>
-                      </div>
-                      {/* May 25 with tasks */}
-                      <div className="text-[10px] p-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-md cursor-pointer relative">
-                        25
-                        <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-sky-500 rounded-full"></span>
-                      </div>
-                      {/* Remaining month */}
-                      {[26, 27, 28, 29, 30, 31].map(d => {
-                        const hasTask = d === 26 || d === 28;
-                        return (
-                          <div key={d} className="text-[10px] p-2 hover:bg-zinc-800 text-zinc-300 rounded-md cursor-pointer relative">
-                            {d}
-                            {hasTask && (
-                              <span className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-[#00FF94] rounded-full"></span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Task Timeline details */}
-                  <div className="space-y-3">
-                    <h4 className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Scheduled Tasks</h4>
-                    <div className="space-y-2">
-                      <div className="p-2 rounded bg-zinc-900 border-l-2 border-emerald-500 text-xs">
-                        <span className="text-[9px] font-mono text-zinc-500 block mb-0.5">MAY 24 (TODAY)</span>
-                        <span className="font-semibold line-through text-zinc-400">Setup GitHub offline deployment</span>
-                      </div>
-                      <div className="p-2 rounded bg-zinc-900 border-l-2 border-sky-500 text-xs">
-                        <span className="text-[9px] font-mono text-zinc-500 block mb-0.5">MAY 25 (TOMORROW)</span>
-                        <span className="font-semibold text-zinc-200">Review marketing vector assets</span>
-                      </div>
-                      <div className="p-2 rounded bg-zinc-900 border-l-2 border-[#00FF94] text-xs">
-                        <span className="text-[9px] font-mono text-zinc-500 block mb-0.5">MAY 28</span>
-                        <span className="font-semibold text-zinc-200 font-medium">Draft release notes v1.0.0-rc1</span>
-                      </div>
-                    </div>
+                        <p className="text-[9px] text-zinc-550 text-zinc-500 line-clamp-1">{n.content.replace(/[#*`\n]/g, '')}</p>
+                      </button>
+                    ))}
                   </div>
                 </div>
-              </div>
-            )}
-
-            {/* === TAB 5: AI ASSISTANT CHAT === */}
-            {activeTab === 'ai' && (
-              <div className="flex-1 flex flex-col overflow-hidden text-left bg-zinc-950/30">
-                {/* Chat Top Info Banner */}
-                <div className="p-3 border-b border-zinc-900 bg-zinc-900/20 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Bot className="w-4.5 h-4.5 text-[#00FF94]" />
-                    <div>
-                      <h3 className="text-xs font-semibold leading-none">Flowly Local Intelligence</h3>
-                      <p className="text-[9px] font-mono text-emerald-500 mt-1">
-                        ● Preserved memory scope: 3 notes, 5 tasks, 3 projects active
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-[9.5px] font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">
-                    Groq Llama-3.3-70B
-                  </span>
-                </div>
-
-                {/* Chat Logs */}
-                <div className="flex-1 p-4 overflow-y-auto space-y-4">
-                  {chatMessages.map((msg) => (
-                    <div 
-                      key={msg.id} 
-                      className={`flex flex-col max-w-[85%] ${
-                        msg.sender === 'user' ? 'ml-auto items-end' : 'mr-auto items-start'
-                      }`}
+              ) : (
+                <div className="flex-grow flex flex-col overflow-hidden text-left bg-black/10 select-none">
+                  <div className="flex items-center justify-between p-3 border-b border-zinc-910 border-zinc-900 bg-zinc-950">
+                    <button 
+                      onClick={() => setIsEditingNote(false)}
+                      className="flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 text-[8px] font-mono font-bold uppercase"
                     >
-                      {/* Meta */}
-                      <span className="text-[9px] font-mono text-zinc-500 mb-0.5 px-1 flex items-center gap-1">
-                        {msg.sender === 'user' ? 'You' : 'Flowly AI'} 
-                        <span>·</span> 
-                        {msg.timestamp}
-                      </span>
-                      
-                      {/* Body */}
-                      <div className={`p-3 rounded-xl border text-xs leading-relaxed ${
-                        msg.sender === 'user' 
-                          ? 'bg-[#00FF94] border-[#00FF94]/50 text-black font-semibold shadow-sm animate-fade-in' 
-                          : 'bg-zinc-900 border-zinc-800 text-zinc-300'
-                      }`}>
-                        {msg.isSystemAction && (
-                          <div className="p-1 px-2 mb-2 rounded bg-zinc-950 border border-zinc-800 text-[#00FF94] text-[10px] font-mono flex items-center gap-1.5 uppercase font-bold tracking-wider">
-                            <Sparkles className="w-3 h-3 text-[#00FF94] inline" />
-                            <span>System Trigger Action context: "{msg.actionDetails}"</span>
-                          </div>
-                        )}
-                        <p className="whitespace-pre-line">{msg.text}</p>
-                      </div>
-                    </div>
-                  ))}
+                      <ArrowLeft className="w-3 h-3 text-[#00FF94]" /> Back
+                    </button>
+                    <button 
+                      onClick={() => handleInlineAiAction('summary')}
+                      className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-950 border border-emerald-900 text-[#00FF52] text-[8px] font-mono font-bold"
+                    >
+                      <Sparkles className="w-2.5 h-2.5 text-[#00FF52]" /> Summarize
+                    </button>
+                  </div>
 
-                  {isAiTyping && (
-                    <div className="flex flex-col items-start max-w-[80%]">
-                      <span className="text-[9px] font-mono text-zinc-500 mb-0.5">Flowly agent is compiling...</span>
-                      <div className="p-3.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 text-xs flex items-center gap-2">
-                        <span className="animate-ping block w-2 h-2 rounded-full bg-[#00FF94]"></span>
-                        <span>Reading on-device SQLite database. Syncing context maps...</span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div ref={chatBottomRef} />
+                  <div className="flex-grow overflow-y-auto p-4 space-y-3">
+                    <input 
+                      type="text" 
+                      value={activeNote.title}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setNotes(prev => prev.map(n => n.id === activeNote.id ? { ...n, title: val } : n));
+                      }}
+                      className="w-full bg-transparent text-xs font-display font-black uppercase text-white outline-none border-b border-zinc-900 pb-1"
+                    />
+                    <textarea 
+                      value={activeNote.content}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setNotes(prev => prev.map(n => n.id === activeNote.id ? { ...n, content: val } : n));
+                      }}
+                      className="w-full h-[220px] bg-transparent resize-none outline-none font-mono text-[9px] text-zinc-300"
+                    />
+                  </div>
                 </div>
+              )}
+            </div>
+          )}
 
-                {/* Suggestions Quick Command Tags */}
-                <div className="px-4 py-2 border-t border-zinc-900 bg-zinc-950/20 flex items-center gap-1.5 overflow-x-auto flex-nowrap scrollbar-none scroll-smooth">
-                  <span className="text-[9px] font-mono text-zinc-500 font-semibold mr-1 flex-shrink-0 uppercase">Try clicks:</span>
-                  <button 
-                    onClick={() => simulateAiMessage("Create a task to buy domain names tomorrow")}
-                    className="flex-shrink-0 px-2.5 py-1 rounded-full bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-zinc-200 text-[10px] transition-all"
-                  >
-                    "Create task: Buy domain..."
-                  </button>
-                  <button 
-                    onClick={() => simulateAiMessage("Summarize my marketing launch notes")}
-                    className="flex-shrink-0 px-2.5 py-1 rounded-full bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-zinc-200 text-[10px] transition-all"
-                  >
-                    "Summarize marketing..."
-                  </button>
-                  <button 
-                    onClick={() => simulateAiMessage("Generate a task to draft release notes for Website Redesign")}
-                    className="flex-shrink-0 px-2.5 py-1 rounded-full bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-zinc-200 text-[10px] transition-all"
-                  >
-                    "Make task: Website Redesign..."
-                  </button>
-                </div>
-
-                {/* Input form */}
-                <form onSubmit={handleSendChat} className="p-3 border-t border-zinc-900 bg-zinc-900/10 flex gap-2">
-                  <input 
-                    type="text" 
-                    placeholder="Ask Flowly AI to summarize, search, or build transactions..."
-                    value={userChatInput}
-                    onChange={(e) => setUserChatInput(e.target.value)}
-                    disabled={isAiTyping}
-                    className="flex-grow bg-transparent text-xs rounded border border-zinc-850 px-3.5 py-2.5 placeholder-zinc-500 outline-none focus:border-zinc-700 focus:ring-1 focus:ring-zinc-700 text-zinc-100"
-                  />
-                  <button 
-                    type="submit" 
-                    disabled={isAiTyping || !userChatInput.trim()}
-                    className="p-2.5 rounded bg-[#00FF94] text-black font-extrabold hover:bg-emerald-450 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                    title="Send natural language command to Llama-3 local agent"
-                  >
-                    <Send className="w-3.5 h-3.5" />
-                  </button>
-                </form>
+          {/* TAB 3: TASKS BACKLOG DECK */}
+          {activeTab === 'tasks' && (
+            <div className="flex-grow flex flex-col overflow-hidden p-4 space-y-3 text-left">
+              <div className="flex items-center justify-between border-b pb-2 border-zinc-900">
+                <span className="text-xs font-display font-black text-white uppercase tracking-wider font-bold">Task deck</span>
+                <span className="text-[7.5px] font-mono text-[#00FF52] font-semibold">SQLite Storage</span>
               </div>
-            )}
 
-          </div>
+              <form onSubmit={handleAddTask} className="bg-zinc-950 p-2.5 rounded-2xl border border-zinc-900 space-y-1.5 shrink-0">
+                <input 
+                  type="text" 
+                  placeholder="Insert secure task..."
+                  value={newTaskTitle}
+                  onChange={(e) => setNewTaskTitle(e.target.value)}
+                  className="w-full bg-zinc-900 text-[10px] rounded-lg border border-zinc-800 px-2.5 py-1.5 outline-none text-zinc-200 placeholder-zinc-650"
+                />
+                
+                <div className="flex justify-between items-center gap-1.5 pt-0.5">
+                  <select 
+                    value={newTaskPriority}
+                    onChange={(e) => setNewTaskPriority(e.target.value as any)}
+                    className="bg-zinc-900 text-[8.5px] rounded border border-zinc-800 p-1 text-zinc-300 outline-none"
+                  >
+                    <option value="High">🔥 High</option>
+                    <option value="Medium">⚡ Medium</option>
+                    <option value="Low">💤 Low</option>
+                  </select>
 
+                  <button type="submit" className="p-1 px-3 rounded bg-[#00FF94] text-black font-mono font-black text-[9px] uppercase tracking-wider">
+                    + ADD TASK
+                  </button>
+                </div>
+              </form>
+
+              <div className="flex-grow overflow-y-auto space-y-1">
+                {filteredTasks.map(t => (
+                  <div key={t.id} className="flex justify-between items-center p-2 rounded bg-black/40 border border-zinc-900 text-[9.5px]">
+                    <div className="flex items-center gap-1.5 truncate">
+                      <button onClick={() => handleToggleTask(t.id)} className="w-3.5 h-3.5 rounded border border-zinc-700 flex items-center justify-center shrink-0">
+                        {t.completed && <Check className="w-2.5 h-2.5 text-[#00FF94]" />}
+                      </button>
+                      <span className={`truncate text-zinc-200 ${t.completed ? 'line-through text-zinc-605 text-zinc-600' : ''}`}>{t.title}</span>
+                    </div>
+                    <span className="text-[7px] font-mono px-1 rounded bg-[#00FF94]/10 text-[#00FF94] shrink-0 font-bold">{t.priority}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: CALENDAR AGENDA MATRIX */}
+          {activeTab === 'calendar' && (
+            <div className="flex-grow overflow-y-auto p-4 space-y-4 text-left">
+              <div className="flex items-center justify-between border-b pb-2 border-zinc-900">
+                <span className="text-xs font-display font-black text-white uppercase">Planner matrix</span>
+                <Calendar className="w-3.5 h-3.5 text-[#00FF94]" />
+              </div>
+
+              <div className="p-3 bg-zinc-950 rounded-2xl border border-zinc-900 font-mono text-[8.5px] text-center">
+                <div className="flex justify-between mb-1">
+                  <span className="font-bold text-white">MAY 2026</span>
+                  <span className="text-zinc-[650] text-zinc-500 uppercase font-black">off-grid</span>
+                </div>
+                <div className="grid grid-cols-7 gap-1 font-bold text-zinc-500 mb-1">
+                  <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+                </div>
+                <div className="grid grid-cols-7 gap-1 font-semibold text-zinc-600">
+                  {Array(23).fill(0).map((x,i) => <span key={i} className="text-zinc-700">{i+1}</span>)}
+                  <span className="bg-[#00FF94] text-black font-black rounded-sm">24</span>
+                  <span className="bg-zinc-850 text-white rounded-sm">25</span>
+                  {Array(6).fill(0).map((x,i) => <span key={i} className="text-zinc-400">{26+i}</span>)}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: AI CHAT CO-PILOT */}
+          {activeTab === 'ai' && (
+            <div className="flex-grow flex flex-col overflow-hidden text-left bg-[#050505]/40 select-none">
+              <div className="p-2 border-b border-zinc-900 bg-zinc-950 flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <Bot className="w-3.5 h-3.5 text-[#00FF94]" />
+                  <span className="text-[9.5px] font-mono font-extrabold uppercase tracking-widest text-[#00FF94]">Flowly Llama bot</span>
+                </div>
+              </div>
+
+              <div className="flex-1 p-3 overflow-y-auto space-y-3 select-text text-[9px]">
+                {chatMessages.map(m => (
+                  <div key={m.id} className={`p-2 rounded-2xl max-w-[85%] border ${
+                    m.sender === 'user' ? 'bg-[#00FF94] border-[#00FF94] text-black ml-auto font-bold animate-fade-in' : 'bg-zinc-950 border-zinc-900 text-zinc-300 mr-auto'
+                  }`}>
+                    <p className="whitespace-pre-line leading-relaxed">{m.text}</p>
+                  </div>
+                ))}
+                {isAiTyping && (
+                  <div className="p-2 bg-zinc-950 rounded border border-zinc-90 w-full border-zinc-900 text-zinc-500 flex items-center gap-1">
+                    <span className="animate-ping block w-1.5 h-1.5 rounded-full bg-[#00FF94]" />
+                    <span>Llama scanning databases...</span>
+                  </div>
+                )}
+                <div ref={chatBottomRef} />
+              </div>
+
+              {/* prompts row shortcut layout */}
+              <div className="p-1 px-3 border-t border-zinc-905 border-zinc-900 bg-zinc-950 flex items-center gap-1.5 overflow-x-auto shrink-0 scrollbar-none flex-nowrap">
+                <button 
+                  onClick={() => simulateAiMessage("Add task to buy domains tomorrow")}
+                  className="px-2 py-0.5 rounded-full bg-zinc-900 text-[8px] text-[#00FF94] font-bold shrink-0 font-mono"
+                >
+                  "Buy domains mock..."
+                </button>
+              </div>
+
+              <form onSubmit={handleSendChat} className="p-2 border-t border-zinc-90 w-full border-zinc-900 bg-zinc-950 flex gap-1.5 shrink-0">
+                <input 
+                  type="text" 
+                  placeholder="Ask Llama chatbot..."
+                  value={userChatInput}
+                  onChange={(e) => setUserChatInput(e.target.value)}
+                  disabled={isAiTyping}
+                  className="flex-grow bg-[#0c0c0c] text-[9.5px] rounded-lg border border-zinc-800 px-3 py-1.5 outline-none text-white placeholder-zinc-500"
+                />
+                <button type="submit" className="p-1 px-2 rounded-lg bg-[#00FF94] text-black font-black">
+                  <Send className="w-3 h-3 text-black" />
+                </button>
+              </form>
+            </div>
+          )}
+
+        </div>
+
+        {/* Android Native Navigation Footer Bar */}
+        <div className={`flex justify-around items-center py-2 border-t select-none ${
+          mockTheme === 'dark' ? 'bg-[#0a0a0a] border-zinc-900' : 'bg-zinc-100 border-zinc-200'
+        }`}>
+          {[
+            { id: 'brief', icon: <Sparkle className="w-3.5 h-3.5" />, label: 'Brief' },
+            { id: 'notes', icon: <BookOpen className="w-3.5 h-3.5" />, label: 'Notes' },
+            { id: 'tasks', icon: <CheckSquare className="w-3.5 h-3.5" />, label: 'Tasks' },
+            { id: 'calendar', icon: <Calendar className="w-3.5 h-3.5" />, label: 'Calendar' },
+            { id: 'ai', icon: <Bot className="w-3.5 h-3.5" />, label: 'AI' }
+          ].map(it => {
+            const isAct = activeTab === it.id;
+            return (
+              <button 
+                key={it.id} 
+                onClick={() => {
+                  setActiveTab(it.id as any);
+                  if (it.id === 'notes') setIsEditingNote(false);
+                }}
+                className={`flex flex-col items-center gap-0.5 outline-none ${isAct ? 'text-[#00FF94]' : 'text-zinc-500'}`}
+              >
+                <div className={`p-1 px-2.5 rounded-full transition-all ${isAct ? 'bg-[#00FF94]/10 text-[#00FF94]' : 'text-zinc-650 text-zinc-500'}`}>
+                  {it.icon}
+                </div>
+                <span className="text-[7px] font-mono uppercase font-black tracking-wider leading-none">{it.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Home gesture indicator capsule */}
+        <div className={`py-1 flex items-center justify-center select-none ${
+          mockTheme === 'dark' ? 'bg-[#0a0a0a]' : 'bg-zinc-100'
+        }`}>
+          <div className="w-16 h-1 bg-zinc-850 rounded-full" />
         </div>
 
       </div>
 
-      {/* Under-dashboard status bar */}
-      <div className="flex flex-wrap items-center justify-between mt-3 px-2 text-[11px] font-mono text-zinc-500 gap-2">
-        <div className="flex items-center gap-2">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-          <span>Local Storage encryption key: SHA-256 enabled </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <span>📅 System Time: 2026-05-24</span>
-          <span>🧠 Context Model: llama-3.3-70b-local</span>
+      {/* Under status bar telemetry label */}
+      <div className="flex flex-wrap items-center justify-center mt-3 px-2 text-[10px] font-mono text-zinc-500 gap-2 w-full max-w-[340px] select-none text-center">
+        <div className="flex items-center gap-1">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#00FF94]" />
+          <span>On-device SQLite SHA-256 Storage Enabled</span>
         </div>
       </div>
     </div>

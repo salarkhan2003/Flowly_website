@@ -16,7 +16,8 @@ import {
   HelpCircle, 
   Heart,
   ChevronDown,
-  Sparkle
+  Sparkle,
+  Smartphone
 } from 'lucide-react';
 import InteractiveAppMockup from './components/InteractiveAppMockup';
 import FeaturesGrid from './components/FeaturesGrid';
@@ -29,20 +30,20 @@ export default function App() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadOS, setDownloadOS] = useState<string | null>(null);
 
-  const handleDownload = (osName: string) => {
+  const handleDownload = (packageName: string) => {
     setIsDownloading(true);
-    setDownloadOS(osName);
+    setDownloadOS(packageName);
     setTimeout(() => {
       setIsDownloading(false);
       setDownloadOS(null);
-      alert(`Demo Mode: Flowly landing page mockup downloaded for ${osName}! In a real setup, this would trigger the compilation download of the local-first application.`);
+      alert(`Demo Mode: Flowly Android Stable APK (.apk) download triggered! In a real workspace, this downloads the local-first application package ready for single-tap side-loading.`);
     }, 1500);
   };
 
   const faqs = [
     {
       q: "Where exactly is my data saved?",
-      a: "Everything is kept on-device inside your platform's native sandboxed storage (IndexedDB on browsers, SQLite/AsyncStorage on native desktop structures). There are no secondary sync lines, no web servers, and zero data leaves your local host unless you explicitly request a JSON/Markdown backup export."
+      a: "Everything is kept secure on-device inside your Android platform's native sandboxed storage (using direct Local SQLite indexing inside the app container). There are no cloud sync pipelines, no third-party web servers, and zero data leaves your handset unless you request a JSON or markdown zip backup export."
     },
     {
       q: "How does the private AI Assistant connect to Groq or Gemini?",
@@ -152,7 +153,7 @@ export default function App() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-sm md:text-base text-zinc-405 text-zinc-400 max-w-2xl mx-auto leading-relaxed"
           >
-            No cloud. No sign-in. Your notes, tasks, and projects are indexed locally on your device and supercharged directly with Groq AI using high-performance local tokens.
+            No cloud. No sign-in. Your notes, tasks, and projects are indexed locally on your Android handset as a secure SQLite database, supercharged directly on-device with private local keys.
           </motion.p>
 
           {/* Interactive Platform Downloads Row */}
@@ -163,31 +164,30 @@ export default function App() {
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4"
           >
             <button 
-              onClick={() => handleDownload('macOS')}
+              onClick={() => handleDownload('Android APK')}
               disabled={isDownloading}
-              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-white hover:bg-zinc-100 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display shadow-md"
+              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display shadow-md shadow-[#00FF94]/20"
             >
-              {isDownloading && downloadOS === 'macOS' ? (
+              {isDownloading && downloadOS === 'Android APK' ? (
                 <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
               ) : (
                 <Download className="w-4 h-4" />
               )}
-              <span>Available for macOS</span>
+              <span>Download Android APK</span>
             </button>
 
             <button 
-              onClick={() => handleDownload('Windows')}
-              disabled={isDownloading}
-              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-zinc-950 hover:bg-zinc-900 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-850"
+              disabled={true}
+              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-zinc-950 text-zinc-500 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-900 cursor-not-allowed"
             >
-              {isDownloading && downloadOS === 'Windows' ? (
-                <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
-              ) : (
-                <Laptop className="w-4 h-4 text-[#00FF94]" />
-              )}
-              <span>Available for Windows</span>
+              <Smartphone className="w-4 h-4 text-zinc-700" />
+              <span>Google Play Store (Soon)</span>
             </button>
           </motion.div>
+
+          <p className="text-[10px] font-mono text-zinc-500 pt-1 select-none">
+            iOS, macOS, and Windows workstation clients are coming soon!
+          </p>
 
           {/* Compliant Badging */}
           <motion.div 
@@ -305,32 +305,31 @@ export default function App() {
           </h2>
 
           <p className="text-xs text-zinc-400 leading-relaxed max-w-lg mx-auto">
-            Ready to deploy your offline second brain? Download the Flowly client bin package for your workstation host below. Open source, zero data tracking, zero central account creation required.
+            Ready to deploy your offline second brain? Download the native Flowly APK for your Android device below. Open-source, zero tracking servers, zero accounts required.
           </p>
 
           {/* Secondary Download Button Panel Layout */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
             <button 
-              onClick={() => handleDownload('macOS')}
+              onClick={() => handleDownload('Android APK')}
               disabled={isDownloading}
               className="p-3 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#00FF94]/10 transition-all font-display border border-zinc-800"
             >
               <Download className="w-4 h-4 text-black" />
-              <span>macOS Client Bundle</span>
+              <span>Download Stable APK</span>
             </button>
             
             <button 
-              onClick={() => handleDownload('Windows')}
-              disabled={isDownloading}
-              className="p-3 px-6 rounded-xl bg-zinc-950 hover:bg-zinc-900 text-zinc-100 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:border-zinc-750 transition-all font-display border border-zinc-800"
+              disabled={true}
+              className="p-3 px-6 rounded-xl bg-zinc-950 text-zinc-500 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-90 w-full border-zinc-900 cursor-not-allowed"
             >
-              <FileDown className="w-4 h-4 text-[#00FF94]" />
-              <span>Windows Installer (.exe)</span>
+              <Smartphone className="w-4 h-4 text-zinc-700" />
+              <span>Google Play Store (Soon)</span>
             </button>
           </div>
 
           <p className="text-[10px] font-mono text-zinc-500 pt-2">
-            Also compiled for Debian / AppImage Linux formats. Clone direct via <code>git clone flowly</code>
+            iOS, macOS and Windows client builds are coming soon! Currently fully optimized for on-device Android deployment.
           </p>
 
         </div>
