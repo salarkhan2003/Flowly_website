@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   CloudOff, 
   ShieldCheck, 
@@ -22,23 +22,20 @@ import {
 import InteractiveAppMockup from './components/InteractiveAppMockup';
 import FeaturesGrid from './components/FeaturesGrid';
 import SecurityPhilosophy from './components/SecurityPhilosophy';
+import ApkDownloadOverlay from './components/ApkDownloadOverlay';
+import InstallInstructionsModal from './components/InstallInstructionsModal';
+import { useApkDownload } from './hooks/useApkDownload';
 
 export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   
-  // Simulated download triggers
-  const [isDownloading, setIsDownloading] = useState(false);
-  const [downloadOS, setDownloadOS] = useState<string | null>(null);
-
-  const handleDownload = (packageName: string) => {
-    setIsDownloading(true);
-    setDownloadOS(packageName);
-    setTimeout(() => {
-      setIsDownloading(false);
-      setDownloadOS(null);
-      alert(`Demo Mode: Flowly Android Stable APK (.apk) download triggered! In a real workspace, this downloads the local-first application package ready for single-tap side-loading.`);
-    }, 1500);
-  };
+  const {
+    isDownloading,
+    showInstructions,
+    progress,
+    startDownload,
+    closeInstructions,
+  } = useApkDownload();
 
   const faqs = [
     {
@@ -61,6 +58,19 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-[#ffffff] selection:bg-[#00FF94]/30 selection:text-black" id="main-landing-root">
+
+      <AnimatePresence>
+        {isDownloading && <ApkDownloadOverlay progress={progress} />}
+      </AnimatePresence>
+
+      <InstallInstructionsModal
+        open={showInstructions}
+        onClose={closeInstructions}
+        onDownloadAgain={() => {
+          closeInstructions();
+          startDownload();
+        }}
+      />
       
       {/* Background radial effects */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#00FF94]/8 via-zinc-950/0 to-transparent pointer-events-none" />
@@ -164,16 +174,17 @@ export default function App() {
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4"
           >
             <button 
-              onClick={() => handleDownload('Android APK')}
+              type="button"
+              onClick={startDownload}
               disabled={isDownloading}
-              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display shadow-md shadow-[#00FF94]/20"
+              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-wait text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display shadow-md shadow-[#00FF94]/20"
             >
-              {isDownloading && downloadOS === 'Android APK' ? (
+              {isDownloading ? (
                 <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
               ) : (
                 <Download className="w-4 h-4" />
               )}
-              <span>Download Android APK</span>
+              <span>{isDownloading ? 'Downloading…' : 'Download Android APK'}</span>
             </button>
 
             <button 
@@ -311,12 +322,17 @@ export default function App() {
           {/* Secondary Download Button Panel Layout */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
             <button 
-              onClick={() => handleDownload('Android APK')}
+              type="button"
+              onClick={startDownload}
               disabled={isDownloading}
-              className="p-3 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#00FF94]/10 transition-all font-display border border-zinc-800"
+              className="p-3 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-wait text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#00FF94]/10 transition-all font-display border border-zinc-800"
             >
-              <Download className="w-4 h-4 text-black" />
-              <span>Download Stable APK</span>
+              {isDownloading ? (
+                <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+              ) : (
+                <Download className="w-4 h-4 text-black" />
+              )}
+              <span>{isDownloading ? 'Downloading…' : 'Download Stable APK'}</span>
             </button>
             
             <button 
