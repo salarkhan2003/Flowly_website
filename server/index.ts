@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { getStats, recordDownload, recordVisit } from '../lib/stats-store';
+import { getStats, recordDownload, recordVisit } from '../lib/stats-store.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 3001;

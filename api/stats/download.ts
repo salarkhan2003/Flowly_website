@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { applyCors, handleOptions } from '../_cors';
-import { isKvConfigured, recordDownload } from '../../lib/stats-store';
+import { applyCors, handleOptions } from '../cors.js';
+import { isKvConfigured, recordDownload } from '../lib/stats-store.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleOptions(req, res)) return;
@@ -8,10 +8,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  if (!isKvConfigured()) {
-    console.warn('[api/stats/download] KV_REST_API_URL / KV_REST_API_TOKEN not set on Vercel');
   }
 
   try {
