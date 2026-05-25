@@ -15,6 +15,7 @@ import InteractiveAppMockup from './components/InteractiveAppMockup';
 import FeaturesGrid from './components/FeaturesGrid';
 import SecurityPhilosophy from './components/SecurityPhilosophy';
 import DownloadButton from './components/DownloadButton';
+import FooterStats from './components/FooterStats';
 import { GITHUB_REPO_URL } from './lib/constants';
 
 export default function App() {
@@ -299,10 +300,11 @@ export default function App() {
       </section>
 
       {/* 8. HIGH-POLISHED STARK FOOTER */}
-      <footer className="border-t border-zinc-900/80 bg-zinc-950 py-12">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <footer className="border-t border-zinc-900/80 bg-zinc-950 py-10 sm:py-12 safe-area-bottom">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 flex flex-col gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           
-          <div className="space-y-1.5 text-center md:text-left">
+          <div className="space-y-1.5 text-center md:text-left w-full md:w-auto">
             <div className="flex items-center justify-center md:justify-start gap-1.5">
               <span className="font-display font-black text-sm tracking-tight text-white">Flowly</span>
               <span className="text-[9px] font-mono px-1 border border-zinc-800 text-zinc-500 rounded bg-zinc-900/50">OFFGRID</span>
@@ -329,6 +331,9 @@ export default function App() {
             </p>
           </div>
 
+        </div>
+
+        <FooterStats />
         </div>
       </footer>
 

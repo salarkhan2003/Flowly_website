@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { triggerApkDownload } from '../lib/apkDownload';
+import { recordDownload } from '../lib/statsApi';
 
 type DownloadPhase = 'idle' | 'downloading' | 'instructions';
 
@@ -24,6 +25,7 @@ export function useApkDownload() {
     setPhase('downloading');
     setProgress(0);
     triggerApkDownload();
+    recordDownload();
 
     const startedAt = Date.now();
     const progressTimer = window.setInterval(() => {
