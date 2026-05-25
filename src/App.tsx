@@ -1,18 +1,10 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { 
   CloudOff, 
   ShieldCheck, 
-  Lock, 
-  Check, 
-  ExternalLink, 
-  Download, 
-  Laptop, 
   Key, 
   Bot, 
-  Sparkles, 
-  ChevronRight, 
-  FileDown, 
   HelpCircle, 
   Heart,
   ChevronDown,
@@ -22,20 +14,11 @@ import {
 import InteractiveAppMockup from './components/InteractiveAppMockup';
 import FeaturesGrid from './components/FeaturesGrid';
 import SecurityPhilosophy from './components/SecurityPhilosophy';
-import ApkDownloadOverlay from './components/ApkDownloadOverlay';
-import InstallInstructionsModal from './components/InstallInstructionsModal';
-import { useApkDownload } from './hooks/useApkDownload';
+import DownloadButton from './components/DownloadButton';
+import { GITHUB_REPO_URL } from './lib/constants';
 
 export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
-  
-  const {
-    isDownloading,
-    showInstructions,
-    progress,
-    startDownload,
-    closeInstructions,
-  } = useApkDownload();
 
   const faqs = [
     {
@@ -57,44 +40,31 @@ export default function App() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-[#ffffff] selection:bg-[#00FF94]/30 selection:text-black" id="main-landing-root">
-
-      <AnimatePresence>
-        {isDownloading && <ApkDownloadOverlay progress={progress} />}
-      </AnimatePresence>
-
-      <InstallInstructionsModal
-        open={showInstructions}
-        onClose={closeInstructions}
-        onDownloadAgain={() => {
-          closeInstructions();
-          startDownload();
-        }}
-      />
+    <div className="relative min-h-[100dvh] w-full max-w-[100vw] overflow-x-hidden bg-[#050505] text-[#ffffff] selection:bg-[#00FF94]/30 selection:text-black" id="main-landing-root">
       
       {/* Background radial effects */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#00FF94]/8 via-zinc-950/0 to-transparent pointer-events-none" />
       
-      {/* Giant Typography Background Text */}
-      <div className="absolute top-[120px] left-4 md:left-[5%] z-0 pointer-events-none select-none opacity-[0.04]">
-        <h1 className="font-display font-black text-6xl sm:text-8xl md:text-[140px] leading-[0.85] tracking-[-4px] md:tracking-[-8px] text-zinc-100 uppercase text-left">
+      {/* Giant Typography Background Text — hidden on small phones to avoid overflow */}
+      <div className="absolute top-[100px] left-3 sm:left-4 md:left-[5%] z-0 pointer-events-none select-none opacity-[0.04] hidden sm:block max-w-[100vw] overflow-hidden">
+        <h1 className="font-display font-black text-5xl sm:text-8xl md:text-[140px] leading-[0.85] tracking-[-2px] sm:tracking-[-4px] md:tracking-[-8px] text-zinc-100 uppercase text-left">
           OFFLINE<br />PRIVATE<br />BRAIN
         </h1>
       </div>
 
       {/* 1. HEADER / NAVIGATION BAR */}
-      <header className="sticky top-0 z-50 border-b border-zinc-900/90 bg-black/80 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 border-b border-zinc-900/90 bg-black/80 backdrop-blur-md safe-area-top">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 min-h-14 sm:h-16 flex items-center justify-between gap-2">
           
           {/* Logo & Version badge */}
-          <a href="#" className="flex items-center gap-2 px-1 focus:outline-none" id="brand-logo">
-            <div className="p-1.5 rounded-lg bg-[#00FF94] text-black font-black">
+          <a href="#" className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-shrink focus:outline-none" id="brand-logo">
+            <div className="p-1.5 rounded-lg bg-[#00FF94] text-black font-black flex-shrink-0">
               <Bot className="w-4 h-4" />
             </div>
-            <span className="font-display font-bold text-lg tracking-tight uppercase text-white">
+            <span className="font-display font-bold text-base sm:text-lg tracking-tight uppercase text-white truncate">
               Flowly
             </span>
-            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-900 text-[#00FF94] font-semibold">
+            <span className="hidden min-[400px]:inline text-[8px] sm:text-[9px] font-mono px-1 sm:px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-900 text-[#00FF94] font-semibold flex-shrink-0">
               LOCAL-FIRST
             </span>
           </a>
@@ -108,9 +78,9 @@ export default function App() {
           </nav>
 
           {/* Call-to-Action Header Button */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <a 
-              href="https://github.com" 
+              href={GITHUB_REPO_URL}
               target="_blank" 
               rel="noreferrer"
               className="text-xs font-mono text-zinc-400 hover:text-white transition-colors hidden sm:inline"
@@ -118,20 +88,14 @@ export default function App() {
               Github
             </a>
             
-            <a 
-              href="#download" 
-              className="p-2 px-4 rounded-full bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs tracking-wide uppercase flex items-center gap-1 transition-all shadow-md shadow-[#00FF94]/10 font-display"
-            >
-              <span>Download</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </a>
+            <DownloadButton variant="header" />
           </div>
 
         </div>
       </header>
 
       {/* 2. HERO SECTION */}
-      <section className="relative px-4 pt-20 pb-8 md:pt-28 md:pb-12 text-center overflow-hidden" id="hero">
+      <section className="relative px-3 sm:px-4 pt-16 sm:pt-20 pb-8 md:pt-28 md:pb-12 text-center overflow-hidden" id="hero">
         <div className="max-w-4xl mx-auto space-y-6 relative z-10">
           
           {/* Top Tagline Badge Overlay */}
@@ -173,19 +137,7 @@ export default function App() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4"
           >
-            <button 
-              type="button"
-              onClick={startDownload}
-              disabled={isDownloading}
-              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-wait text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display shadow-md shadow-[#00FF94]/20"
-            >
-              {isDownloading ? (
-                <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
-              ) : (
-                <Download className="w-4 h-4" />
-              )}
-              <span>{isDownloading ? 'Downloading…' : 'Download Android APK'}</span>
-            </button>
+            <DownloadButton variant="primary" label="Download Android APK" />
 
             <button 
               disabled={true}
@@ -261,6 +213,9 @@ export default function App() {
               Operational Inquiries
             </h2>
             <p className="text-xs text-zinc-400">Everything you need to know about setting up Flowly's local storage indexes</p>
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <DownloadButton variant="compact" label="Download APK" />
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -286,7 +241,7 @@ export default function App() {
                   </button>
                   
                   <div className={`overflow-hidden transition-all duration-300 ${
-                    isOpen ? 'max-h-56 border-t border-zinc-900 p-4' : 'max-h-0'
+                    isOpen ? 'max-h-[min(70vh,28rem)] border-t border-zinc-900 p-4' : 'max-h-0'
                   }`}>
                     <p className="text-xs leading-relaxed text-zinc-400">
                       {faq.a}
@@ -321,19 +276,11 @@ export default function App() {
 
           {/* Secondary Download Button Panel Layout */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
-            <button 
-              type="button"
-              onClick={startDownload}
-              disabled={isDownloading}
-              className="p-3 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-wait text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#00FF94]/10 transition-all font-display border border-zinc-800"
-            >
-              {isDownloading ? (
-                <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
-              ) : (
-                <Download className="w-4 h-4 text-black" />
-              )}
-              <span>{isDownloading ? 'Downloading…' : 'Download Stable APK'}</span>
-            </button>
+            <DownloadButton
+              variant="primary"
+              label="Download Stable APK"
+              className="p-3 px-6 hover:shadow-lg hover:shadow-[#00FF94]/10 border border-zinc-800"
+            />
             
             <button 
               disabled={true}
@@ -364,7 +311,7 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-[11px] text-zinc-500 font-mono">
-            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">GitHub Repository</a>
+            <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">GitHub Repository</a>
             <span>•</span>
             <a href="#" className="hover:text-zinc-300 transition-colors">Terms of Custody</a>
             <span>•</span>

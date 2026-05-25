@@ -12,7 +12,23 @@ export function isChromeBrowser(): boolean {
   return /Chrome/i.test(ua) && !/Edg|OPR|SamsungBrowser/i.test(ua);
 }
 
+export function isMobileDevice(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+}
+
+/** Triggers APK download — uses navigation on Android where the download attribute is ignored. */
 export function triggerApkDownload(): void {
+  if (isAndroidDevice()) {
+    const link = document.createElement('a');
+    link.href = APK_URL;
+    link.rel = 'noopener';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    return;
+  }
+
   const link = document.createElement('a');
   link.href = APK_URL;
   link.download = APK_FILENAME;

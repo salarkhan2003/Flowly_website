@@ -12,6 +12,8 @@ import {
   MessageSquareCode
 } from 'lucide-react';
 import { useState } from 'react';
+import DownloadButton from './DownloadButton';
+import { GITHUB_REPO_URL } from '../lib/constants';
 
 export default function SecurityPhilosophy() {
   const [activePromptIndex, setActivePromptIndex] = useState(0);
@@ -86,6 +88,18 @@ export default function SecurityPhilosophy() {
               <span className="text-[10px] text-zinc-500 uppercase block mb-1">SETUP FEE</span>
               <span className="text-sm font-bold text-[#00FF94]">$0.00 Forever</span>
             </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3 pt-4">
+            <DownloadButton variant="compact" label="Download Flowly APK" />
+            <a
+              href={GITHUB_REPO_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="text-[10px] font-mono text-zinc-500 hover:text-[#00FF94] uppercase tracking-wider font-bold transition-colors"
+            >
+              Open source on GitHub
+            </a>
           </div>
         </div>
 

@@ -295,13 +295,13 @@ export default function InteractiveAppMockup() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-center transition-all duration-300 md:py-6" id="interactive-demo">
+    <div className="w-full max-w-full flex flex-col items-center justify-center transition-all duration-300 py-4 md:py-6 px-2 sm:px-4 overflow-hidden" id="interactive-demo">
       {/* 
         PREMIUM PHYSICAL ANDROID TOUCH DEVICE FRAME
         This implements the requested stylish mobile mockup structure with hardware physical ridges, rounded bezel,
         camera punch-hole notch, realistic status bar, dynamic light/dark modes, and bottom gestural navigation.
       */}
-      <div className={`relative w-[340px] h-[670px] rounded-[48px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[10px] border-zinc-900 ${
+      <div className={`relative w-full max-w-[340px] aspect-[340/670] max-h-[min(78dvh,670px)] mx-auto rounded-[32px] sm:rounded-[48px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[6px] sm:border-[10px] border-zinc-900 ${
         mockTheme === 'dark' ? 'shadow-[#00FF94]/5 ring-1 ring-zinc-800' : 'shadow-zinc-300/40 ring-1 ring-zinc-200 border-zinc-350 bg-white'
       }`}>
         
