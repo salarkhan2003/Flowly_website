@@ -4,13 +4,27 @@ export interface SiteStats {
   updatedAt: string;
 }
 
-const API_BASE = import.meta.env.VITE_STATS_API_URL ?? '';
+const API_BASE = (import.meta.env.VITE_STATS_API_URL ?? '').replace(/\/$/, '');
+
+function apiUrl(path: string): string {
+  return `${API_BASE}${path}`;
+}
 
 export async function fetchSiteStats(): Promise<SiteStats | null> {
   try {
-    const res = await fetch(`${API_BASE}/api/stats`, { cache: 'no-store' });
+    const res = await fetch(apiUrl('/api/stats'), {
+      method: 'GET',
+      cache: 'no-store',
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    });
     if (!res.ok) return null;
-    return (await res.json()) as SiteStats;
+    const data = (await res.json()) as SiteStats;
+    return {
+      visits: Number(data.visits) || 0,
+      downloads: Number(data.downloads) || 0,
+      updatedAt: data.updatedAt || new Date().toISOString(),
+    };
   } catch {
     return null;
   }
@@ -18,9 +32,18 @@ export async function fetchSiteStats(): Promise<SiteStats | null> {
 
 export async function recordVisit(): Promise<SiteStats | null> {
   try {
-    const res = await fetch(`${API_BASE}/api/stats/visit`, { method: 'POST' });
+    const res = await fetch(apiUrl('/api/stats/visit'), {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    });
     if (!res.ok) return null;
-    return (await res.json()) as SiteStats;
+    const data = (await res.json()) as SiteStats;
+    return {
+      visits: Number(data.visits) || 0,
+      downloads: Number(data.downloads) || 0,
+      updatedAt: data.updatedAt || new Date().toISOString(),
+    };
   } catch {
     return null;
   }
@@ -28,33 +51,21 @@ export async function recordVisit(): Promise<SiteStats | null> {
 
 export async function recordDownload(): Promise<SiteStats | null> {
   try {
-    const res = await fetch(`${API_BASE}/api/stats/download`, { method: 'POST' });
+    const res = await fetch(apiUrl('/api/stats/download'), {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    });
     if (!res.ok) return null;
-    return (await res.json()) as SiteStats;
+    const data = (await res.json()) as SiteStats;
+    return {
+      visits: Number(data.visits) || 0,
+      downloads: Number(data.downloads) || 0,
+      updatedAt: data.updatedAt || new Date().toISOString(),
+    };
   } catch {
     return null;
   }
-}
-
-export function subscribeSiteStats(onStats: (stats: SiteStats) => void): () => void {
-  let source: EventSource | null = null;
-
-  try {
-    source = new EventSource(`${API_BASE}/api/stats/stream`);
-    source.onmessage = (event) => {
-      try {
-        onStats(JSON.parse(event.data) as SiteStats);
-      } catch {
-        /* ignore malformed payloads */
-      }
-    };
-  } catch {
-    /* EventSource unavailable */
-  }
-
-  return () => {
-    source?.close();
-  };
 }
 
 export function formatStatCount(value: number): string {

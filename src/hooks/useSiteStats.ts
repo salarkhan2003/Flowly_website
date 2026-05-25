@@ -2,45 +2,59 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   fetchSiteStats,
   recordVisit,
-  subscribeSiteStats,
   type SiteStats,
 } from '../lib/statsApi';
 
 const VISIT_SESSION_KEY = 'flowly-visit-recorded';
 
+function canUseSessionStorage(): boolean {
+  try {
+    return typeof sessionStorage !== 'undefined';
+  } catch {
+    return false;
+  }
+}
+
 export function useSiteStats() {
   const [stats, setStats] = useState<SiteStats | null>(null);
   const [live, setLive] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
     const data = await fetchSiteStats();
-    if (data) setStats(data);
+    if (data) {
+      setStats(data);
+      setLive(true);
+    }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     refresh();
 
-    if (!sessionStorage.getItem(VISIT_SESSION_KEY)) {
+    const visitAlreadyRecorded =
+      canUseSessionStorage() && sessionStorage.getItem(VISIT_SESSION_KEY);
+
+    if (!visitAlreadyRecorded) {
       recordVisit().then((data) => {
         if (data) {
           setStats(data);
-          sessionStorage.setItem(VISIT_SESSION_KEY, '1');
+          setLive(true);
+          try {
+            sessionStorage.setItem(VISIT_SESSION_KEY, '1');
+          } catch {
+            /* private mode */
+          }
         }
       });
     }
 
-    const unsubscribe = subscribeSiteStats((data) => {
-      setStats(data);
-      setLive(true);
-    });
-
-    const poll = window.setInterval(refresh, 8000);
+    const poll = window.setInterval(refresh, 4000);
 
     return () => {
-      unsubscribe();
       window.clearInterval(poll);
     };
   }, [refresh]);
 
-  return { stats, live, refresh };
+  return { stats, live, loading, refresh };
 }
