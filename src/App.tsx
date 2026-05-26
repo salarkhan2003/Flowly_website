@@ -24,7 +24,7 @@ export default function App() {
   const faqs = [
     {
       q: "Where exactly is my data saved?",
-      a: "Everything is kept secure on-device inside your Android platform's native sandboxed storage (using direct Local SQLite indexing inside the app container). There are no cloud sync pipelines, no third-party web servers, and zero data leaves your handset unless you request a JSON or markdown zip backup export."
+      a: "Everything is kept secure on-device inside your Android platform's native sandboxed storage (AsyncStorage with local persistence). There are no cloud sync pipelines, no third-party web servers, and zero data leaves your handset unless you request a JSON export from Profile → Export All Data."
     },
     {
       q: "How does the private AI Assistant connect to Groq or Gemini?",
@@ -66,7 +66,7 @@ export default function App() {
               Flowly
             </span>
             <span className="hidden min-[400px]:inline text-[8px] sm:text-[9px] font-mono px-1 sm:px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-900 text-[#00FF94] font-semibold flex-shrink-0">
-              LOCAL-FIRST
+              v1.0.3
             </span>
           </a>
 
@@ -128,7 +128,7 @@ export default function App() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-sm md:text-base text-zinc-405 text-zinc-400 max-w-2xl mx-auto leading-relaxed"
           >
-            No cloud. No sign-in. Your notes, tasks, and projects are indexed locally on your Android handset as a secure SQLite database, supercharged directly on-device with private local keys.
+            No cloud. No sign-in. Your notes, tasks, and projects are stored locally on your Android device using AsyncStorage — offline-first, private, and supercharged with on-device AI.
           </motion.p>
 
           {/* Interactive Platform Downloads Row */}
@@ -314,6 +314,8 @@ export default function App() {
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-[11px] text-zinc-500 font-mono">
             <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">GitHub Repository</a>
+            <span>•</span>
+            <a href="https://t.me/FlowlyAITeam" target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">Telegram Community</a>
             <span>•</span>
             <a href="#" className="hover:text-zinc-300 transition-colors">Terms of Custody</a>
             <span>•</span>

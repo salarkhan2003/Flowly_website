@@ -143,7 +143,7 @@ export default function FeaturesGrid() {
               No Cloud. Not Now, Not Ever.
             </h3>
             <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
-              Every data entity — notes, tags, checklists, schedule events, and metadata records — is written on your device's native key-value storage engine (Secure client AsyncStorage/IndexedDB wrappers) in robust schema structures. Works flawlessly deep in airplane cabins, isolated woods, or extreme grid out-zones.
+              Every data entity — notes, tags, checklists, schedule events, and metadata records — is written on your device's native AsyncStorage engine in robust schema structures. Works flawlessly deep in airplane cabins, isolated woods, or extreme grid out-zones.
             </p>
           </div>
           <div className="flex-shrink-0 flex flex-col w-full md:w-auto items-stretch sm:items-center gap-2.5 sm:gap-3">
