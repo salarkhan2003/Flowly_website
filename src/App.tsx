@@ -413,43 +413,6 @@ export default function App() {
           >
             Notes, tasks, projects, and optional AI assistance — stored directly on your device with zero sign-up required.
           </motion.p>
-
-          {/* Majestic, Highly Visible Live Metrics Panel */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, delay: 0.12 }}
-            className="inline-flex flex-wrap items-center justify-center gap-y-2 gap-x-3 xs:gap-x-5 px-4 xs:px-5 py-2.5 rounded-2xl bg-zinc-950/80 border border-zinc-900/90 shadow-md shadow-[#00FF94]/5 text-xs font-mono select-none"
-          >
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF94] opacity-85"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF94]"></span>
-              </span>
-              <span className="text-[#00FF94] font-black uppercase tracking-wider text-[11px] xs:text-xs">
-                {stats.liveUsers} <span className="text-zinc-500 font-medium">Active</span>
-              </span>
-            </div>
-            
-            <span className="text-zinc-800 font-light hidden xs:inline">/</span>
-
-            <div className="flex items-center gap-1.5 shrink-0 text-[11.5px] xs:text-xs">
-              <Eye className="w-3.5 h-3.5 text-[#00FF94]/60" />
-              <span className="text-zinc-400 font-medium uppercase tracking-wide">
-                Views: <strong className="text-white font-black">{stats.views.toLocaleString()}</strong>
-              </span>
-            </div>
-
-            <span className="text-zinc-800 font-light hidden xs:inline">/</span>
-
-            <div className="flex items-center gap-1.5 shrink-0 text-[11.5px] xs:text-xs">
-              <Download className="w-3.5 h-3.5 text-[#00FF94]/60" />
-              <span className="text-zinc-400 font-medium uppercase tracking-wide">
-                Installs: <strong className="text-white font-black">{stats.downloads.toLocaleString()}</strong>
-              </span>
-            </div>
-          </motion.div>
-
           {/* Primary CTA Row */}
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
