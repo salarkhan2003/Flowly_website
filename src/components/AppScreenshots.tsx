@@ -278,7 +278,7 @@ export default function AppScreenshots() {
         {/* Display Frame */}
         <div className="md:col-span-8 flex justify-center">
           {/* Handset Frame */}
-          <div className="relative w-[300px] h-[450px] rounded-[36px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[8px] border-zinc-900 ring-1 ring-zinc-800">
+          <div className="relative w-[280px] xs:w-[300px] h-[420px] xs:h-[450px] rounded-[36px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[8px] border-zinc-900 ring-1 ring-zinc-800">
             {/* Front Camera cutout */}
             <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full bg-black z-50 flex items-center justify-center">
               <div className="w-1 h-1 rounded-full bg-zinc-800" />

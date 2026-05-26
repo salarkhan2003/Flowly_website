@@ -301,8 +301,8 @@ export default function InteractiveAppMockup() {
         This implements the requested stylish mobile mockup structure with hardware physical ridges, rounded bezel,
         camera punch-hole notch, realistic status bar, dynamic light/dark modes, and bottom gestural navigation.
       */}
-      <div className={`relative w-[340px] h-[670px] rounded-[48px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[10px] border-zinc-900 ${
-        mockTheme === 'dark' ? 'shadow-[#00FF94]/5 ring-1 ring-zinc-800' : 'shadow-zinc-300/40 ring-1 ring-zinc-200 border-zinc-350 bg-white'
+      <div className={`relative w-[295px] sm:w-[340px] h-[620px] sm:h-[670px] rounded-[36px] sm:rounded-[48px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[8px] sm:border-[10px] border-zinc-900 ${
+        mockTheme === 'dark' ? 'shadow-[#00FF94]/5 ring-1 ring-zinc-805' : 'shadow-zinc-300/40 ring-1 ring-zinc-200 border-zinc-350 bg-white'
       }`}>
         
         {/* physical tactile tactile ridge power buttons */}
@@ -670,7 +670,7 @@ export default function InteractiveAppMockup() {
       </div>
 
       {/* Under status bar telemetry label */}
-      <div className="flex flex-wrap items-center justify-center mt-3 px-2 text-[10px] font-mono text-zinc-500 gap-2 w-full max-w-[340px] select-none text-center">
+      <div className="flex flex-wrap items-center justify-center mt-3 px-2 text-[10px] font-mono text-zinc-500 gap-2 w-full max-w-[295px] sm:max-w-[340px] select-none text-center">
         <div className="flex items-center gap-1">
           <ShieldCheck className="w-3.5 h-3.5 text-[#00FF94]" />
           <span>On-device SQLite SHA-256 Storage Enabled</span>
