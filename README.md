@@ -43,7 +43,7 @@ The application centers around a comfortable **bottom bar navigation system** op
 ## 🚀 getting started with flowly mobile
 
 ### 1️⃣ Download Android stable APK
-Tap the **Download Android APK** button on our landing page to obtain the trusted `flowly-v1.0.2-stable.apk` bundle.
+Tap the **Download Android APK** button on our landing page to obtain the trusted `flowly-v1.0.3-stable.apk` bundle.
 
 ### 2️⃣ Sideload Installation
 Authorize sideload installs for your Android browser or file manager:

@@ -413,7 +413,7 @@ export default function DocsReader({ isOpen, onClose, defaultTab = 'guide' }: Do
                 <Smartphone className="w-3 h-3 text-[#00FF94]" />
                 <span>Optimized purely for Android Handset Sandbox</span>
               </div>
-              <span className="hidden sm:inline">Flowly v1.0.2 • Verified Stable Sideload Package</span>
+              <span className="hidden sm:inline">Flowly v1.0.3 • Verified Stable Sideload Package</span>
             </div>
 
           </motion.div>

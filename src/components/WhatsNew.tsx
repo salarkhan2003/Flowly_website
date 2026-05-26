@@ -4,7 +4,7 @@ import { Sparkle, ShieldCheck, Download, ExternalLink, ArrowRight, Save, History
 export default function WhatsNew() {
   const updates = [
     {
-      version: "v1.0.2",
+      version: "v1.0.3",
       date: "May 2026 (Latest Stable)",
       features: [
         {
@@ -57,7 +57,7 @@ export default function WhatsNew() {
           <div className="space-y-1">
             <span className="text-[10px] font-mono text-zinc-500 uppercase font-black">ACTIVE HANDSET RELEASE</span>
             <div className="flex items-center gap-2">
-              <h3 className="text-xl font-display font-black text-[#00FF94]">Flowly v1.0.2</h3>
+              <h3 className="text-xl font-display font-black text-[#00FF94]">Flowly v1.0.3</h3>
               <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#00FF94]/10 text-[#00FF94] border border-[#00FF94]/20 font-bold uppercase">STABLE</span>
             </div>
             <p className="text-xs text-zinc-550 text-zinc-500 font-mono">Released: May 24, 2026</p>
@@ -74,7 +74,7 @@ export default function WhatsNew() {
             className="w-full p-3 rounded-xl bg-[#00FF94]/10 hover:bg-[#00FF94] text-[#00FF94] hover:text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-[#00FF94]/20 hover:border-transparent cursor-pointer text-center"
           >
             <Download className="w-4 h-4" />
-            <span>Install Stable v1.0.2 APK</span>
+            <span>Install Stable v1.0.3 APK</span>
           </a>
         </div>
 
