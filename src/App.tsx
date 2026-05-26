@@ -398,9 +398,9 @@ export default function App() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.05 }}
-              className="text-base md:text-xl text-[#00FF94] font-mono tracking-wide uppercase font-extrabold"
+              className="text-base md:text-xl text-[#00FF94] font-mono tracking-wide font-extrabold"
             >
-              Local-first workspace for Android
+              Local-first notes, tasks, and projects for Android.
             </motion.p>
           </div>
 
@@ -411,7 +411,7 @@ export default function App() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-sm md:text-base text-zinc-300 max-w-xl mx-auto leading-relaxed"
           >
-            Notes, tasks, projects, and optional AI assistance — stored directly on your device with zero sign-up required.
+            Organize your work offline, store everything on your device, and use optional AI assistance with your own API keys.
           </motion.p>
           {/* Primary CTA Row */}
           <motion.div 
