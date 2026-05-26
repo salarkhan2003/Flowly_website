@@ -3,11 +3,6 @@ import {
   X, 
   Check, 
   Bot, 
-  Clock, 
-  Sparkle,
-  ArrowRight,
-  Database,
-  Cpu,
   Lock,
   MessageSquareCode
 } from 'lucide-react';
@@ -36,7 +31,7 @@ export default function SecurityPhilosophy() {
         type: "NOTE",
         title: "Design Team Meeting",
         tags: ["design", "meeting"],
-        content: "# Meeting Notes\nPreserving designer notes local-first..."
+        content: "# Meeting Notes\nReviewing final visual layouts locally..."
       }
     },
     {
@@ -52,86 +47,78 @@ export default function SecurityPhilosophy() {
   ];
 
   return (
-    <section className="space-y-16 py-12" id="security-architecture">
+    <section className="space-y-12 py-12" id="security-architecture">
       
-      {/* 2-Column Comparatives Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* 2-Column Comparison Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         
         {/* Comparison Text/Intro */}
-        <div className="space-y-6 text-left">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-800 bg-black text-[11px] font-mono text-[#00FF94] uppercase tracking-widest font-bold">
-            <Lock className="w-3.5 h-3.5 text-[#00FF94]" />
-            <span>SOVEREIGN DATA PRINCIPLE</span>
+        <div className="space-y-4 text-left">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-800 bg-black text-[10px] font-mono text-[#00FF94] uppercase tracking-widest font-bold">
+            <Lock className="w-3 h-3 text-[#00FF94]" />
+            <span>Data Comparison</span>
           </div>
 
-          <h2 className="text-2xl md:text-4xl font-display font-black text-white uppercase tracking-tight leading-tight">
-            Designed for Local Data Custody
+          <h2 className="text-2xl md:text-3xl font-display font-black text-white uppercase tracking-tight leading-tight">
+            Designed for Local Ownership
           </h2>
 
           <p className="text-xs text-zinc-400 leading-relaxed">
-            Standard productivity applications store your notes, schedules, and drafts on proprietary third-party servers. This increases the attack surface for details to be breached, processed, or indexed by proprietary models.
+            Unlike cloud-based tools that keep your files on proprietary databases, Flowly stores notes, schedules, and drafts on your own device.
           </p>
 
           <p className="text-xs text-zinc-400 leading-relaxed">
-            <strong>Flowly</strong> enforces strict localized execution. Since there is no remote account database, web login, or cloud sync background agent tracking your actions, your workspace assets are kept inside your secure physical custody.
+            This avoids sync delays, protects you from remote data breaches, and guarantees that you retain access to your work even without an internet network.
           </p>
 
-          {/* Quick Metrics */}
-          <div className="grid grid-cols-2 gap-4 pt-3 font-mono">
-            <div className="p-3.5 bg-zinc-950 border border-zinc-900 rounded-xl">
-              <span className="text-[10px] text-zinc-500 uppercase block mb-1">DATA FLOW</span>
-              <span className="text-sm font-bold text-[#00FF94]">0% Leaving Phone</span>
-            </div>
-            <div className="p-3.5 bg-zinc-950 border border-zinc-900 rounded-xl">
-              <span className="text-[10px] text-zinc-500 uppercase block mb-1">SETUP FEE</span>
-              <span className="text-sm font-bold text-[#00FF94]">$0.00 Forever</span>
-            </div>
-          </div>
+          <p className="text-xs text-zinc-500 italic">
+            * AI features require internet access when using external providers like Groq or Gemini. Your API keys are saved locally.
+          </p>
         </div>
 
         {/* COMPARATIVE INDEX TABLE */}
-        <div className="p-6 md:p-8 rounded-2xl border border-zinc-900 bg-black/40 space-y-4">
-          <h3 className="text-sm font-display font-black uppercase tracking-wider text-white text-left">
+        <div className="p-6 rounded-2xl border border-zinc-900 bg-black/40 space-y-4">
+          <h3 className="text-xs font-display font-black uppercase tracking-wider text-white text-left">
             How Flowly Differs
           </h3>
 
-          <div className="space-y-3.5 text-xs text-left">
+          <div className="space-y-4 text-xs text-left">
             {/* Row 1 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-3.5 border-b border-zinc-900/50">
-              <div className="text-zinc-500 font-mono text-[10px]">THE OLD CLOUD WAY</div>
-              <div className="text-[#00FF94] font-mono text-[10px] font-bold">THE FLOWLY WAY</div>
+              <div className="text-zinc-500 font-mono text-[9px] uppercase tracking-wide">Standard Cloud Apps</div>
+              <div className="text-[#00FF94] font-mono text-[9px] font-bold uppercase tracking-wide">The Flowly App</div>
               
-              <div className="flex items-center gap-2 text-zinc-400">
-                <X className="w-4 h-4 text-rose-500/80 flex-shrink-0" />
-                <span>Mandatory accounts, sign-ins, and cookie consent banners.</span>
+              <div className="flex items-start gap-2 text-zinc-400">
+                <X className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
+                <span>Mandatory cloud accounts, persistent sign-ins, and cookie track identifiers.</span>
               </div>
-              <div className="flex items-center gap-2 text-zinc-200">
-                <Check className="w-4 h-4 text-[#00FF94] flex-shrink-0" />
-                <span>Zero signup. Download app, input your name once, proceed instantly.</span>
+              <div className="flex items-start gap-2 text-zinc-200">
+                <Check className="w-3.5 h-3.5 text-[#00FF94] shrink-0 mt-0.5" />
+                <span>No sign-up. Get started instantly without registering an email address.</span>
               </div>
             </div>
 
             {/* Row 2 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-3.5 border-b border-zinc-900/50">
-              <div className="flex items-center gap-2 text-zinc-400">
-                <X className="w-4 h-4 text-rose-500/80 flex-shrink-0" />
-                <span>Monthly recurring fees to cover server database synchronization overhead is costly.</span>
+              <div className="flex items-start gap-2 text-zinc-400">
+                <X className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
+                <span>Monthly recurring fees to cover centralized hosting servers and sync.</span>
               </div>
-              <div className="flex items-center gap-2 text-zinc-200">
-                <Check className="w-4 h-4 text-[#00FF94] flex-shrink-0" />
-                <span>Completely offline storage means zero infrastructure overhead. Paid zero cents.</span>
+              <div className="flex items-start gap-2 text-zinc-200">
+                <Check className="w-3.5 h-3.5 text-[#00FF94] shrink-0 mt-0.5" />
+                <span>Completely offline-ready setup with zero monthly subscription fees.</span>
               </div>
             </div>
 
             {/* Row 3 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center gap-2 text-zinc-400">
-                <X className="w-4 h-4 text-rose-500/80 flex-shrink-0" />
-                <span>AI models retain on-cloud logs and proxy intermediate queries.</span>
+              <div className="flex items-start gap-2 text-zinc-400">
+                <X className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
+                <span>API integrations that route through external proxies, logging your queries.</span>
               </div>
-              <div className="flex items-center gap-2 text-zinc-200">
-                <Check className="w-4 h-4 text-[#00FF94] flex-shrink-0" />
-                <span>Optional AI endpoints are queried directly from the app container via HTTPS using user keys.</span>
+              <div className="flex items-start gap-2 text-zinc-200">
+                <Check className="w-3.5 h-3.5 text-[#00FF94] shrink-0 mt-0.5" />
+                <span>Optional AI endpoints are queried directly from your device using your own keys.</span>
               </div>
             </div>
           </div>
@@ -140,19 +127,19 @@ export default function SecurityPhilosophy() {
       </div>
 
       {/* NATURAL LANGUAGE PARSING ILLUSTRATOR (TRANSLATIONS SECTION) */}
-      <div className="p-6 md:p-8 rounded-2xl border border-zinc-900 bg-black/60 space-y-6">
+      <div className="p-6 rounded-2xl border border-zinc-900 bg-black/60 space-y-6">
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1.5 text-left">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-900 bg-black text-[10px] font-mono text-[#00FF94] font-bold uppercase tracking-widest">
               <MessageSquareCode className="w-3.5 h-3.5 text-[#00FF94]" />
-              <span>NATURAL LANGUAGE PROCESSING</span>
+              <span>Language Processing</span>
             </div>
-            <h3 className="text-xl font-display font-black text-white uppercase tracking-tight">
-              Flowly AI Assistant: Translate Intention to Tables
+            <h3 className="text-lg font-display font-black text-white uppercase tracking-tight">
+              Simple AI Task Extraction
             </h3>
             <p className="text-xs text-zinc-400 max-w-xl leading-relaxed">
-              Use natural voice or text directives to formulate tags, tasks, and notes instantly. Our schema parser constructs clean structured collections directly inside your offline SQLite tables.
+              Use voice or text commands inside the app to quickly add tasks and projects. Our on-device assistant maps intent into clean lists.
             </p>
           </div>
 
@@ -161,61 +148,61 @@ export default function SecurityPhilosophy() {
               <button
                 key={index}
                 onClick={() => setActivePromptIndex(index)}
-                className={`px-3 py-1.5 rounded-lg font-mono text-[10px] transition-all border uppercase tracking-wider font-bold ${
+                className={`px-3 py-1.5 rounded-lg font-mono text-[9px] transition-all border uppercase tracking-wider font-bold ${
                   activePromptIndex === index 
                     ? 'bg-[#00FF94]/10 border-[#00FF94] text-[#00FF94]' 
-                    : 'bg-[#050505] border-zinc-850 hover:border-zinc-700 text-zinc-450 text-zinc-400 hover:text-zinc-205'
+                    : 'bg-[#050505] border-zinc-850 hover:border-zinc-750 text-zinc-400'
                 }`}
               >
-                Instance {index + 1}
+                Example {index + 1}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Dynamic Diagram of Translation */}
+        {/* Dynamic Diagram */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-stretch text-left">
           
           {/* User Input side */}
           <div className="md:col-span-5 p-5 bg-zinc-950/80 rounded-xl border border-zinc-90 w-full flex flex-col justify-between">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block mb-4">Input Conversational Query</span>
+            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest block mb-4">Input Command</span>
             <div className="p-4 rounded-xl bg-black border border-zinc-900 font-sans text-sm italic text-zinc-100 relative shadow-inner">
               "{promptingGuides[activePromptIndex].prompt}"
               <span className="absolute -bottom-1 -right-1 text-xs">✍️</span>
             </div>
             <p className="text-[10px] text-zinc-500 mt-4 leading-relaxed">
-              This string gets analyzed instantly inside Flowly's secure offline thread via optimized context indexing guidelines.
+              This prompt gets processed on-device and formatted into clean lists using secure localized code paths.
             </p>
           </div>
 
-          {/* Core Processing Spark */}
+          {/* Icon Link */}
           <div className="md:col-span-2 flex flex-row md:flex-col items-center justify-center p-3 gap-2">
-            <div className="h-0.5 md:h-12 w-12 md:w-0.5 bg-gradient-to-r md:bg-gradient-to-b from-zinc-805 to-[#00FF94]" />
-            <div className="p-2 rounded-full bg-[#00FF94]/10 border border-[#00FF94]/30 text-[#00FF94] animate-pulse">
-              <Bot className="w-5 h-5" />
+            <div className="h-0.5 md:h-12 w-12 md:w-0.5 bg-gradient-to-r md:bg-gradient-to-b from-zinc-800 to-[#00FF94]" />
+            <div className="p-2 rounded-full bg-[#00FF94]/10 border border-[#00FF94]/30 text-[#00FF94]">
+              <Bot className="w-4 h-4" />
             </div>
-            <div className="h-0.5 md:h-12 w-12 md:w-0.5 bg-gradient-to-r md:bg-gradient-to-b from-[#00FF94] to-zinc-805" />
+            <div className="h-0.5 md:h-12 w-12 md:w-0.5 bg-gradient-to-r md:bg-gradient-to-b from-[#00FF94] to-zinc-800" />
           </div>
 
           {/* Structured Output Side */}
           <div className="md:col-span-5 p-5 bg-zinc-950/80 rounded-xl border border-zinc-90 w-full flex flex-col justify-between">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Output Action Model</span>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-zinc-900 border border-emerald-900/30 text-[#00FF94] uppercase tracking-wider">
+              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Parsed Result</span>
+              <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-zinc-900 border border-emerald-950 text-[#00FF94] uppercase tracking-wider">
                 {promptingGuides[activePromptIndex].action}
               </span>
             </div>
 
             {/* Simulated Code Block */}
-            <div className="p-3 rounded-lg bg-black border border-zinc-900 font-mono text-[10px] leading-relaxed text-zinc-300">
+            <div className="p-3 rounded-lg bg-black border border-zinc-900 font-mono text-[9px] leading-relaxed text-zinc-300">
               <pre className="text-left overflow-x-auto">
                 {JSON.stringify(promptingGuides[activePromptIndex].json, null, 2)}
               </pre>
             </div>
 
-            <p className="text-[10px] font-semibold text-zinc-500 mt-3 flex items-center gap-1.5 uppercase tracking-wider font-bold">
-              <Lock className="w-3.5 h-3.5 text-zinc-600" />
-              <span>Instantly loaded into local storage (0ms sync)</span>
+            <p className="text-[10px] font-semibold text-zinc-505 text-zinc-500 mt-3 flex items-center gap-1.5 uppercase tracking-wider font-bold">
+              <Lock className="w-3.5 h-3.5 text-zinc-650" />
+              <span>Instantly saved to local device SQLite database</span>
             </p>
           </div>
 

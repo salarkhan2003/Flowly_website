@@ -363,7 +363,7 @@ export default function InteractiveAppMockup() {
               <div className="flex items-center justify-between border-b pb-2 border-zinc-900">
                 <div>
                   <h2 className="text-xs font-display font-black text-white uppercase tracking-wider">Morning Brief</h2>
-                  <p className="text-[8px] text-[#00FF94] font-mono">On-device sqlite telemetry</p>
+                  <p className="text-[8px] text-[#00FF94] font-mono">On-device SQLite database</p>
                 </div>
                 <Sparkle className="w-3.5 h-3.5 text-[#00FF94] animate-pulse" />
               </div>
@@ -402,7 +402,7 @@ export default function InteractiveAppMockup() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h2 className="text-xs font-display font-black text-white uppercase tracking-wider">Notes Vault</h2>
-                      <p className="text-[8px] text-zinc-550 text-zinc-500 font-mono font-bold">Preserved indexes ({notes.length})</p>
+                      <p className="text-[8px] text-zinc-500 font-mono font-bold">Local notes ({notes.length})</p>
                     </div>
                     <button 
                       onClick={() => {
