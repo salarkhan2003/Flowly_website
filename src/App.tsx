@@ -114,7 +114,7 @@ export default function App() {
               <span className="font-display font-black text-sm md:text-base tracking-tight uppercase text-white">
                 Flowly
               </span>
-              <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-900 text-[#00FF94] font-bold">
+              <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-900 text-[#00FF94] font-bold hidden sm:inline-block">
                 v1.0.3
               </span>
             </a>
@@ -133,7 +133,7 @@ export default function App() {
               </div>
 
               {/* Total views pill */}
-              <div className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-[9px] sm:text-[10px] font-mono leading-none text-zinc-300 shrink-0">
+              <div className="hidden sm:flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-[9px] sm:text-[10px] font-mono leading-none text-zinc-300 shrink-0">
                 <Eye className="w-3 h-3 text-[#00FF94]/80" />
                 <span className="font-semibold text-zinc-550 mr-0.5 hidden md:inline uppercase text-zinc-500">VIEWS:</span>
                 <span className="font-black text-white">
@@ -142,7 +142,7 @@ export default function App() {
               </div>
 
               {/* Total downloads pill */}
-              <div className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-[9px] sm:text-[10px] font-mono leading-none text-zinc-300 shrink-0">
+              <div className="hidden sm:flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-[9px] sm:text-[10px] font-mono leading-none text-zinc-300 shrink-0">
                 <Download className="w-3 h-3 text-[#00FF94]/80" />
                 <span className="font-semibold text-zinc-550 mr-0.5 hidden md:inline uppercase text-zinc-500">INSTALLS:</span>
                 <span className="font-black text-white">
@@ -162,7 +162,7 @@ export default function App() {
           </nav>
 
           {/* Call-to-Action Header Button */}
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-2.5 sm:gap-3.5">
             <button 
               onClick={() => openDocsTab('guide')}
               className="text-xs font-mono text-[#00FF94] hover:text-emerald-300 cursor-pointer focus:outline-none font-bold"
@@ -183,9 +183,10 @@ export default function App() {
             <a 
               href="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk" 
               onClick={handleDownloadClick}
-              className="p-1.5 px-3 rounded-lg bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs tracking-wide uppercase flex items-center gap-1 transition-all shadow-md shadow-[#00FF94]/10 font-display font-semibold"
+              className="p-1.5 px-2.5 sm:px-3 rounded-lg bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-[10px] sm:text-xs tracking-wide uppercase flex items-center gap-1 transition-all shadow-md shadow-[#00FF94]/10 font-display font-semibold shrink-0"
             >
-              <span>Download APK</span>
+              <span className="hidden sm:inline">Download APK</span>
+              <span className="sm:hidden">Get APK</span>
               <ChevronRight className="w-3 h-3" />
             </a>
           </div>
