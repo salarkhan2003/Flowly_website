@@ -25,9 +25,11 @@ import WhyLocalFirst from './components/WhyLocalFirst';
 import AppScreenshots from './components/AppScreenshots';
 import DocsReader from './components/DocsReader';
 import WhatsNew from './components/WhatsNew';
+import InstallGuideModal from './components/InstallGuideModal';
 
 export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [isSetupOpen, setIsSetupOpen] = useState(false);
   
   // Real-time tracking stats state (initialized with intelligent fallbacks so there's never a layout flicker)
   const [stats, setStats] = useState<{ views: number; downloads: number; liveUsers: number }>({
@@ -189,6 +191,9 @@ export default function App() {
   }, []);
 
   const handleDownloadClick = () => {
+    // Open the setup installation guide immediately
+    setIsSetupOpen(true);
+
     // If we're not in simulated mode, try central sync.
     // Otherwise immediately increment locally to preserve instant feedback.
     if (!isSimulatedMode) {
@@ -400,7 +405,7 @@ export default function App() {
               transition={{ duration: 0.5, delay: 0.05 }}
               className="text-base md:text-xl text-[#00FF94] font-mono tracking-wide font-extrabold"
             >
-              Local-first notes, tasks, and projects for Android.
+              Your local-first productivity system for Android.
             </motion.p>
           </div>
 
@@ -411,7 +416,7 @@ export default function App() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-sm md:text-base text-zinc-300 max-w-xl mx-auto leading-relaxed"
           >
-            Organize your work offline, store everything on your device, and use optional AI assistance with your own API keys.
+            Capture notes, manage tasks, organize projects, and use optional AI assistance to automate workflow — without mandatory accounts or cloud sync.
           </motion.p>
           {/* Primary CTA Row */}
           <motion.div 
@@ -657,6 +662,13 @@ export default function App() {
         isOpen={isDocsOpen} 
         onClose={() => setIsDocsOpen(false)} 
         defaultTab={docsDefaultTab} 
+      />
+
+      {/* Styled Interactive 3D Setup Guide Modal */}
+      <InstallGuideModal 
+        isOpen={isSetupOpen}
+        onClose={() => setIsSetupOpen(false)}
+        downloadUrl="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk"
       />
 
     </div>
