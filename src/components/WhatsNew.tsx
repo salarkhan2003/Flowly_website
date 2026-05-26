@@ -1,7 +1,11 @@
 import React from 'react';
 import { Download, History, Sparkle } from 'lucide-react';
 
-export default function WhatsNew() {
+interface WhatsNewProps {
+  onDownloadClick?: () => void;
+}
+
+export default function WhatsNew({ onDownloadClick }: WhatsNewProps) {
   const updates = [
     {
       version: "v1.0.3",
@@ -61,6 +65,7 @@ export default function WhatsNew() {
           <div className="pt-6">
             <a 
               href="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk"
+              onClick={onDownloadClick}
               className="w-full p-3 rounded-xl bg-[#00FF94]/10 hover:bg-[#00FF94] text-[#00FF94] hover:text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-[#00FF94]/20 hover:border-transparent cursor-pointer text-center"
             >
               <Download className="w-4 h-4" />

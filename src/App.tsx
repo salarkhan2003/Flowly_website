@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   CloudOff, 
@@ -13,7 +13,10 @@ import {
   Sparkle,
   Smartphone,
   BookOpen,
-  Github
+  Github,
+  Eye,
+  Activity,
+  Users
 } from 'lucide-react';
 import InteractiveAppMockup from './components/InteractiveAppMockup';
 import FeaturesGrid from './components/FeaturesGrid';
@@ -26,6 +29,47 @@ import WhatsNew from './components/WhatsNew';
 export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   
+  // Real-time tracking stats state (initialized as null, will fetch on load)
+  const [stats, setStats] = useState<{ views: number; downloads: number; liveUsers: number } | null>(null);
+
+  useEffect(() => {
+    // 1. Report a page view on load and retrieve current statistics
+    fetch('/api/stats/view', { method: 'POST' })
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(err => {
+        console.warn('Could not post view status on mount:', err);
+        // Fallback to simple stats GET query
+        fetch('/api/stats')
+          .then(res => res.json())
+          .then(data => setStats(data))
+          .catch(() => {});
+      });
+
+    // 2. Refresh statistics periodically every 8 seconds
+    const interval = setInterval(() => {
+      fetch('/api/stats')
+        .then(res => res.json())
+        .then(data => setStats(data))
+        .catch(() => {});
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleDownloadClick = () => {
+    fetch('/api/stats/download', { method: 'POST' })
+      .then(res => res.json())
+      .then(data => setStats(data))
+      .catch(err => {
+        console.warn('Could not register download click event:', err);
+        // Instant response optimistically incrementing locally so UI feedback remains active
+        if (stats) {
+          setStats({ ...stats, downloads: stats.downloads + 1 });
+        }
+      });
+  };
+
   // Docs Modal states
   const [isDocsOpen, setIsDocsOpen] = useState(false);
   const [docsDefaultTab, setDocsDefaultTab] = useState<'guide' | 'terms' | 'privacy'>('guide');
@@ -61,21 +105,55 @@ export default function App() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#00FF94]/5 via-zinc-950/0 to-transparent pointer-events-none" />
 
       {/* 1. HEADER / NAVIGATION BAR */}
-      <header className="sticky top-0 z-50 border-b border-zinc-900 bg-black/80 backdrop-blur-md">
-        <div className="max-w-5xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 border-b border-zinc-900 bg-black/85 backdrop-blur-md">
+        <div className="max-w-5xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between gap-4">
           
-          {/* Logo & Version badge */}
-          <a href="#" className="flex items-center gap-2 px-1 focus:outline-none animate-fade-in" id="brand-logo">
-            <span className="font-display font-black text-base tracking-tight uppercase text-white">
-              Flowly
-            </span>
-            <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-90 w-full border-zinc-900 text-[#00FF94] font-bold">
-              v1.0.3
-            </span>
-          </a>
+          <div className="flex items-center gap-3 md:gap-5">
+            {/* Logo & Version badge */}
+            <a href="#" className="flex items-center gap-2 px-1 focus:outline-none animate-fade-in animate-duration-500" id="brand-logo">
+              <span className="font-display font-black text-sm md:text-base tracking-tight uppercase text-white">
+                Flowly
+              </span>
+              <span className="text-[8px] font-mono px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-900 text-[#00FF94] font-bold">
+                v1.0.3
+              </span>
+            </a>
+
+            {/* Real-time statistics pills */}
+            <div className="flex items-center gap-1.5 sm:gap-2 select-none">
+              {/* Live active users pill */}
+              <div className="relative flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#00FF94]/5 border border-[#00FF94]/20 text-[#00FF94] text-[9px] sm:text-[10px] font-mono font-bold leading-none shadow-sm shadow-[#00FF94]/5 shrink-0">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF94] opacity-80"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#00FF94]"></span>
+                </span>
+                <span>
+                  {stats ? stats.liveUsers : '...'} ACTIVE
+                </span>
+              </div>
+
+              {/* Total views pill */}
+              <div className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-[9px] sm:text-[10px] font-mono leading-none text-zinc-300 shrink-0">
+                <Eye className="w-3 h-3 text-[#00FF94]/80" />
+                <span className="font-semibold text-zinc-550 mr-0.5 hidden md:inline uppercase text-zinc-500">VIEWS:</span>
+                <span className="font-black text-white">
+                  {stats ? stats.views.toLocaleString() : '...'}
+                </span>
+              </div>
+
+              {/* Total downloads pill */}
+              <div className="flex items-center gap-1 px-1.5 sm:px-2 py-0.5 rounded bg-zinc-950 border border-zinc-900 text-[9px] sm:text-[10px] font-mono leading-none text-zinc-300 shrink-0">
+                <Download className="w-3 h-3 text-[#00FF94]/80" />
+                <span className="font-semibold text-zinc-550 mr-0.5 hidden md:inline uppercase text-zinc-500">INSTALLS:</span>
+                <span className="font-black text-white">
+                  {stats ? stats.downloads.toLocaleString() : '...'}
+                </span>
+              </div>
+            </div>
+          </div>
 
           {/* Quick Jump Links */}
-          <nav className="hidden md:flex items-center gap-6 text-[10px] font-mono uppercase tracking-wider text-zinc-400">
+          <nav className="hidden lg:flex items-center gap-6 text-[10px] font-mono uppercase tracking-wider text-zinc-400">
             <a href="#grid-features" className="hover:text-[#00FF94] transition-colors">Features</a>
             <a href="#why-local-first" className="hover:text-[#00FF94] transition-colors font-mono">Why Local-First</a>
             <a href="#screenshots" className="hover:text-[#00FF94] transition-colors">Walkthrough</a>
@@ -104,6 +182,7 @@ export default function App() {
 
             <a 
               href="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk" 
+              onClick={handleDownloadClick}
               className="p-1.5 px-3 rounded-lg bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs tracking-wide uppercase flex items-center gap-1 transition-all shadow-md shadow-[#00FF94]/10 font-display font-semibold"
             >
               <span>Download APK</span>
@@ -158,6 +237,7 @@ export default function App() {
           >
             <a 
               href="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk"
+              onClick={handleDownloadClick}
               className="w-full sm:w-auto p-3 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display shadow-md shadow-[#00FF94]/10 text-center"
             >
               <Download className="w-4 h-4" />
@@ -239,7 +319,7 @@ export default function App() {
       </section>
 
       {/* 5.5 WHAT'S NEW SECTION */}
-      <WhatsNew />
+      <WhatsNew onDownloadClick={handleDownloadClick} />
 
       {/* 6. EXPANDED FAQS */}
       <section className="bg-black/40 border-t border-zinc-900" id="faq">
@@ -313,6 +393,7 @@ export default function App() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
             <a 
               href="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk"
+              onClick={handleDownloadClick}
               className="w-full sm:w-auto p-3 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#00FF94]/10 transition-all font-display border border-zinc-850 text-center"
             >
               <Download className="w-4 h-4 text-black" />
