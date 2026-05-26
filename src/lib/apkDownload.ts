@@ -1,4 +1,4 @@
-export const APK_URL = '/Flowly.apk';
+export const APK_URL = 'https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk';
 export const APK_FILENAME = 'Flowly.apk';
 
 export function isAndroidDevice(): boolean {
