@@ -3,28 +3,59 @@ import { motion } from 'motion/react';
 import { 
   CloudOff, 
   ShieldCheck, 
+  Lock, 
+  Check, 
+  ExternalLink, 
+  Download, 
+  Laptop, 
   Key, 
   Bot, 
+  Sparkles, 
+  ChevronRight, 
+  FileDown, 
   HelpCircle, 
   Heart,
   ChevronDown,
   Sparkle,
-  Smartphone
+  Smartphone,
+  BookOpen
 } from 'lucide-react';
 import InteractiveAppMockup from './components/InteractiveAppMockup';
 import FeaturesGrid from './components/FeaturesGrid';
 import SecurityPhilosophy from './components/SecurityPhilosophy';
-import DownloadButton from './components/DownloadButton';
-import FooterStats from './components/FooterStats';
-import { GITHUB_REPO_URL } from './lib/constants';
+import DocsReader from './components/DocsReader';
+import WhatsNew from './components/WhatsNew';
 
 export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  
+  // Simulated download triggers
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadOS, setDownloadOS] = useState<string | null>(null);
+
+  // Docs Modal states
+  const [isDocsOpen, setIsDocsOpen] = useState(false);
+  const [docsDefaultTab, setDocsDefaultTab] = useState<'guide' | 'terms' | 'privacy'>('guide');
+
+  const openDocsTab = (tab: 'guide' | 'terms' | 'privacy') => {
+    setDocsDefaultTab(tab);
+    setIsDocsOpen(true);
+  };
+
+  const handleDownload = (packageName: string) => {
+    setIsDownloading(true);
+    setDownloadOS(packageName);
+    setTimeout(() => {
+      setIsDownloading(false);
+      setDownloadOS(null);
+      alert(`Demo Mode: Flowly Android Stable APK (.apk) download triggered! In a real workspace, this downloads the local-first application package ready for single-tap side-loading.`);
+    }, 1500);
+  };
 
   const faqs = [
     {
       q: "Where exactly is my data saved?",
-      a: "Everything is kept secure on-device inside your Android platform's native sandboxed storage (AsyncStorage with local persistence). There are no cloud sync pipelines, no third-party web servers, and zero data leaves your handset unless you request a JSON export from Profile → Export All Data."
+      a: "Everything is kept secure on-device inside your Android platform's native sandboxed storage (using direct Local SQLite indexing inside the app container). There are no cloud sync pipelines, no third-party web servers, and zero data leaves your handset unless you request a JSON or markdown zip backup export."
     },
     {
       q: "How does the private AI Assistant connect to Groq or Gemini?",
@@ -41,32 +72,32 @@ export default function App() {
   ];
 
   return (
-    <div className="relative min-h-[100dvh] w-full max-w-[100vw] overflow-x-hidden bg-[#050505] text-[#ffffff] selection:bg-[#00FF94]/30 selection:text-black" id="main-landing-root">
+    <div className="relative min-h-screen bg-[#050505] text-[#ffffff] selection:bg-[#00FF94]/30 selection:text-black" id="main-landing-root">
       
       {/* Background radial effects */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#00FF94]/8 via-zinc-950/0 to-transparent pointer-events-none" />
       
-      {/* Giant Typography Background Text — hidden on small phones to avoid overflow */}
-      <div className="absolute top-[100px] left-3 sm:left-4 md:left-[5%] z-0 pointer-events-none select-none opacity-[0.04] hidden sm:block max-w-[100vw] overflow-hidden">
-        <h1 className="font-display font-black text-5xl sm:text-8xl md:text-[140px] leading-[0.85] tracking-[-2px] sm:tracking-[-4px] md:tracking-[-8px] text-zinc-100 uppercase text-left">
+      {/* Giant Typography Background Text */}
+      <div className="absolute top-[120px] left-4 md:left-[5%] z-0 pointer-events-none select-none opacity-[0.04]">
+        <h1 className="font-display font-black text-6xl sm:text-8xl md:text-[140px] leading-[0.85] tracking-[-4px] md:tracking-[-8px] text-zinc-100 uppercase text-left">
           OFFLINE<br />PRIVATE<br />BRAIN
         </h1>
       </div>
 
       {/* 1. HEADER / NAVIGATION BAR */}
-      <header className="sticky top-0 z-50 border-b border-zinc-900/90 bg-black/80 backdrop-blur-md safe-area-top">
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 min-h-14 sm:h-16 flex items-center justify-between gap-2">
+      <header className="sticky top-0 z-50 border-b border-zinc-900/90 bg-black/80 backdrop-blur-md">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
           
           {/* Logo & Version badge */}
-          <a href="#" className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-shrink focus:outline-none" id="brand-logo">
-            <div className="p-1.5 rounded-lg bg-[#00FF94] text-black font-black flex-shrink-0">
+          <a href="#" className="flex items-center gap-2 px-1 focus:outline-none" id="brand-logo">
+            <div className="p-1.5 rounded-lg bg-[#00FF94] text-black font-black">
               <Bot className="w-4 h-4" />
             </div>
-            <span className="font-display font-bold text-base sm:text-lg tracking-tight uppercase text-white truncate">
+            <span className="font-display font-bold text-lg tracking-tight uppercase text-white">
               Flowly
             </span>
-            <span className="hidden min-[400px]:inline text-[8px] sm:text-[9px] font-mono px-1 sm:px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-900 text-[#00FF94] font-semibold flex-shrink-0">
-              v1.0.3
+            <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-zinc-950 border border-zinc-900 text-[#00FF94] font-semibold">
+              LOCAL-FIRST
             </span>
           </a>
 
@@ -74,14 +105,27 @@ export default function App() {
           <nav className="hidden md:flex items-center gap-8 text-[11px] font-mono uppercase tracking-wider text-zinc-400">
             <a href="#grid-features" className="hover:text-[#00FF94] transition-colors">Features</a>
             <a href="#interactive-demo" className="hover:text-[#00FF94] transition-colors">Interactive App</a>
+            <button 
+              onClick={() => openDocsTab('guide')}
+              className="hover:text-[#00FF94] transition-colors font-mono uppercase tracking-wider text-left focus:outline-none cursor-pointer"
+            >
+              How to Use
+            </button>
             <a href="#security-architecture" className="hover:text-[#00FF94] transition-colors">Local Trust</a>
             <a href="#faq" className="hover:text-[#00FF94] transition-colors">FAQS</a>
           </nav>
 
           {/* Call-to-Action Header Button */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div className="flex items-center gap-3.5">
+            <button 
+              onClick={() => openDocsTab('guide')}
+              className="text-xs font-mono text-[#00FF94] hover:text-emerald-300 cursor-pointer focus:outline-none font-bold"
+            >
+              Guide 📖
+            </button>
+
             <a 
-              href={GITHUB_REPO_URL}
+              href="https://github.com" 
               target="_blank" 
               rel="noreferrer"
               className="text-xs font-mono text-zinc-400 hover:text-white transition-colors hidden sm:inline"
@@ -89,14 +133,20 @@ export default function App() {
               Github
             </a>
             
-            <DownloadButton variant="header" />
+            <a 
+              href="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk" 
+              className="p-2 px-4 rounded-full bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs tracking-wide uppercase flex items-center gap-1 transition-all shadow-md shadow-[#00FF94]/10 font-display font-semibold"
+            >
+              <span>Download APK</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </a>
           </div>
 
         </div>
       </header>
 
       {/* 2. HERO SECTION */}
-      <section className="relative px-3 sm:px-4 pt-16 sm:pt-20 pb-8 md:pt-28 md:pb-12 text-center overflow-hidden" id="hero">
+      <section className="relative px-4 pt-20 pb-8 md:pt-28 md:pb-12 text-center overflow-hidden" id="hero">
         <div className="max-w-4xl mx-auto space-y-6 relative z-10">
           
           {/* Top Tagline Badge Overlay */}
@@ -106,8 +156,8 @@ export default function App() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-zinc-850 bg-black/80 text-[10px] font-mono text-[#00FF94] font-bold tracking-widest uppercase mb-2 mx-auto shadow-sm"
           >
-            <CloudOff className="w-3.5 h-3.5 text-[#00FF94] animate-pulse" />
-            <span>The local-first AI assistant</span>
+            <CloudOff className="w-3.5 h-3.5 text-[#00FF94]" />
+            <span>LOCAL-FIRST ANDROID WORKSPACE</span>
           </motion.div>
 
           {/* Heavy Editorial Title */}
@@ -118,7 +168,7 @@ export default function App() {
             className="text-4xl sm:text-5xl md:text-7xl font-display font-black text-white tracking-tight leading-[1.05] text-center"
           >
             Own your data.<br />
-            <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">Scale your mind.</span>
+            <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">Direct local storage.</span>
           </motion.h1>
 
           {/* Clean Sub-headline */}
@@ -126,9 +176,9 @@ export default function App() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-sm md:text-base text-zinc-405 text-zinc-400 max-w-2xl mx-auto leading-relaxed"
+            className="text-sm md:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed"
           >
-            No cloud. No sign-in. Your notes, tasks, and projects are stored locally on your Android device using AsyncStorage — offline-first, private, and supercharged with on-device AI.
+            Flowly is a standard local sandbox for Android notes, tasks, and projects. All directory parameters write directly into native SQLite storage on your device. Supercharge your operations with optional AI queries dispatched using your private API keys.
           </motion.p>
 
           {/* Interactive Platform Downloads Row */}
@@ -138,14 +188,28 @@ export default function App() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4"
           >
-            <DownloadButton variant="primary" label="Download Android APK" />
+            <a 
+              href="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk"
+              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display shadow-md shadow-[#00FF94]/20 text-center"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Stable APK</span>
+            </a>
+
+            <button 
+              onClick={() => openDocsTab('guide')}
+              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-zinc-950 hover:bg-zinc-900 text-[#00FF94] hover:text-emerald-300 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-850 hover:border-zinc-700"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Operation Guide</span>
+            </button>
 
             <button 
               disabled={true}
-              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-zinc-950 text-zinc-500 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-900 cursor-not-allowed"
+              className="w-full sm:w-auto p-3.5 px-6 rounded-xl bg-zinc-950 text-zinc-500 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-900 cursor-not-allowed hidden md:flex"
             >
               <Smartphone className="w-4 h-4 text-zinc-700" />
-              <span>Google Play Store (Soon)</span>
+              <span>Play Store (Soon)</span>
             </button>
           </motion.div>
 
@@ -153,7 +217,7 @@ export default function App() {
             iOS, macOS, and Windows workstation clients are coming soon!
           </p>
 
-          {/* Compliant Badging */}
+          {/* Handset Integrity Badging */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -162,12 +226,12 @@ export default function App() {
           >
             <div className="flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-[#00FF94]" />
-              <span>100% GDPR & HIPAA Compliant Architecture</span>
+              <span>Sovereign Local Sandbox</span>
             </div>
             <span>•</span>
             <div className="flex items-center gap-1">
               <Key className="w-3.5 h-3.5 text-[#00FF94]" />
-              <span>Uses Local Encrypted Index Keys</span>
+              <span>Hardware-Backed Storage Keystore</span>
             </div>
           </motion.div>
 
@@ -200,6 +264,9 @@ export default function App() {
         <SecurityPhilosophy />
       </section>
 
+      {/* 5.5 WHAT'S NEW SECTION */}
+      <WhatsNew />
+
       {/* 6. EXPANDED FAQS */}
       <section className="bg-black/40 border-t border-zinc-900" id="faq">
         <div className="max-w-3xl mx-auto px-4 py-16 md:py-24 space-y-10 text-left">
@@ -214,9 +281,6 @@ export default function App() {
               Operational Inquiries
             </h2>
             <p className="text-xs text-zinc-400">Everything you need to know about setting up Flowly's local storage indexes</p>
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <DownloadButton variant="compact" label="Download APK" />
-            </div>
           </div>
 
           <div className="space-y-4">
@@ -242,7 +306,7 @@ export default function App() {
                   </button>
                   
                   <div className={`overflow-hidden transition-all duration-300 ${
-                    isOpen ? 'max-h-[min(70vh,28rem)] border-t border-zinc-900 p-4' : 'max-h-0'
+                    isOpen ? 'max-h-56 border-t border-zinc-900 p-4' : 'max-h-0'
                   }`}>
                     <p className="text-xs leading-relaxed text-zinc-400">
                       {faq.a}
@@ -268,27 +332,37 @@ export default function App() {
           </div>
 
           <h2 className="text-3xl md:text-5xl font-display font-black text-white tracking-tight uppercase leading-none">
-            CUSTODY OF YOUR<br />DIGITAL STORAGE
+            CUSTODY OF YOUR<br />ORGANIZATION VAULT
           </h2>
 
           <p className="text-xs text-zinc-400 leading-relaxed max-w-lg mx-auto">
-            Ready to deploy your offline second brain? Download the native Flowly APK for your Android device below. Open-source, zero tracking servers, zero accounts required.
+            Ready to deploy your offline workspace? Download the native Flowly APK for your Android device below. Completely free, zero data brokers, zero tracking servers, zero sign-in required.
           </p>
 
           {/* Secondary Download Button Panel Layout */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-4">
-            <DownloadButton
-              variant="primary"
-              label="Download Stable APK"
-              className="p-3 px-6 hover:shadow-lg hover:shadow-[#00FF94]/10 border border-zinc-800"
-            />
+            <a 
+              href="https://github.com/salarkhan2003/flowly/releases/latest/download/Flowly.apk"
+              className="p-3 px-6 rounded-xl bg-[#00FF94] hover:bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-[#00FF94]/10 transition-all font-display border border-zinc-850 text-center"
+            >
+              <Download className="w-4 h-4 text-black" />
+              <span>Download Stable APK</span>
+            </a>
+
+            <button 
+              onClick={() => openDocsTab('guide')}
+              className="p-3 px-6 rounded-xl bg-zinc-950 hover:bg-zinc-900 text-[#00FF94] hover:text-emerald-300 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-850 hover:border-zinc-750"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Operation Guide</span>
+            </button>
             
             <button 
               disabled={true}
-              className="p-3 px-6 rounded-xl bg-zinc-950 text-zinc-500 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-90 w-full border-zinc-900 cursor-not-allowed"
+              className="p-3 px-6 rounded-xl bg-zinc-950 text-zinc-500 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all font-display border border-zinc-90 w-full border-zinc-900 cursor-not-allowed hidden md:flex"
             >
               <Smartphone className="w-4 h-4 text-zinc-700" />
-              <span>Google Play Store (Soon)</span>
+              <span>Play Store (Soon)</span>
             </button>
           </div>
 
@@ -300,26 +374,33 @@ export default function App() {
       </section>
 
       {/* 8. HIGH-POLISHED STARK FOOTER */}
-      <footer className="border-t border-zinc-900/80 bg-zinc-950 py-10 sm:py-12 safe-area-bottom">
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 flex flex-col gap-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+      <footer className="border-t border-zinc-900/80 bg-zinc-950 py-12">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           
-          <div className="space-y-1.5 text-center md:text-left w-full md:w-auto">
+          <div className="space-y-1.5 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-1.5">
               <span className="font-display font-black text-sm tracking-tight text-white">Flowly</span>
               <span className="text-[9px] font-mono px-1 border border-zinc-800 text-zinc-500 rounded bg-zinc-900/50">OFFGRID</span>
             </div>
-            <p className="text-[11px] text-zinc-500">Your second brain. Offline. Private. AI-powered.</p>
+            <p className="text-[11px] text-zinc-500">Your second brain. Offline. Private. Optional AI assistance.</p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-[11px] text-zinc-500 font-mono">
-            <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">GitHub Repository</a>
+            <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">GitHub Repository</a>
             <span>•</span>
-            <a href="https://t.me/FlowlyAITeam" target="_blank" rel="noreferrer" className="hover:text-zinc-300 transition-colors">Telegram Community</a>
+            <button 
+              onClick={() => openDocsTab('terms')} 
+              className="hover:text-zinc-300 transition-colors focus:outline-none cursor-pointer"
+            >
+              Terms of Custody
+            </button>
             <span>•</span>
-            <a href="#" className="hover:text-zinc-300 transition-colors">Terms of Custody</a>
-            <span>•</span>
-            <a href="#" className="hover:text-zinc-300 transition-colors">Local Safety Shield</a>
+            <button 
+              onClick={() => openDocsTab('privacy')} 
+              className="hover:text-zinc-300 transition-colors focus:outline-none cursor-pointer"
+            >
+              Local Safety Shield
+            </button>
           </div>
 
           <div className="text-center md:text-right space-y-1">
@@ -334,10 +415,14 @@ export default function App() {
           </div>
 
         </div>
-
-        <FooterStats />
-        </div>
       </footer>
+
+      {/* Embedded High-contrast Documentation Reader */}
+      <DocsReader 
+        isOpen={isDocsOpen} 
+        onClose={() => setIsDocsOpen(false)} 
+        defaultTab={docsDefaultTab} 
+      />
 
     </div>
   );

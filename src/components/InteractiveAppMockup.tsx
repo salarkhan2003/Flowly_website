@@ -295,13 +295,13 @@ export default function InteractiveAppMockup() {
   };
 
   return (
-    <div className="w-full max-w-full flex flex-col items-center justify-center transition-all duration-300 py-4 md:py-6 px-2 sm:px-4 overflow-hidden" id="interactive-demo">
+    <div className="w-full flex flex-col items-center justify-center transition-all duration-300 md:py-6" id="interactive-demo">
       {/* 
         PREMIUM PHYSICAL ANDROID TOUCH DEVICE FRAME
         This implements the requested stylish mobile mockup structure with hardware physical ridges, rounded bezel,
         camera punch-hole notch, realistic status bar, dynamic light/dark modes, and bottom gestural navigation.
       */}
-      <div className={`relative w-full max-w-[340px] aspect-[340/670] max-h-[min(78dvh,670px)] mx-auto rounded-[32px] sm:rounded-[48px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[6px] sm:border-[10px] border-zinc-900 ${
+      <div className={`relative w-[340px] h-[670px] rounded-[48px] bg-[#0c0c0c] text-white shadow-2xl flex flex-col overflow-hidden border-[10px] border-zinc-900 ${
         mockTheme === 'dark' ? 'shadow-[#00FF94]/5 ring-1 ring-zinc-800' : 'shadow-zinc-300/40 ring-1 ring-zinc-200 border-zinc-350 bg-white'
       }`}>
         
@@ -363,7 +363,7 @@ export default function InteractiveAppMockup() {
               <div className="flex items-center justify-between border-b pb-2 border-zinc-900">
                 <div>
                   <h2 className="text-xs font-display font-black text-white uppercase tracking-wider">Morning Brief</h2>
-                  <p className="text-[8px] text-[#00FF94] font-mono">On-device AsyncStorage telemetry</p>
+                  <p className="text-[8px] text-[#00FF94] font-mono">On-device sqlite telemetry</p>
                 </div>
                 <Sparkle className="w-3.5 h-3.5 text-[#00FF94] animate-pulse" />
               </div>
@@ -372,7 +372,7 @@ export default function InteractiveAppMockup() {
                 mockTheme === 'dark' ? 'bg-zinc-950/70 border-zinc-900' : 'bg-[#00FF94]/5 border-emerald-100'
               } space-y-2.5`}>
                 <p className="text-[10px] text-zinc-400 leading-relaxed">
-                  Morgan, your private AsyncStorage logs confirm <strong className="text-[#00FF94]">{tasks.filter(t => !t.completed).length} pending tasks</strong> scheduled, with <strong className="text-rose-450 font-bold">3 High priority objectives</strong> active today.
+                  Morgan, your private SQLite logs confirm <strong className="text-[#00FF94]">{tasks.filter(t => !t.completed).length} pending tasks</strong> scheduled, with <strong className="text-rose-450 font-bold">3 High priority objectives</strong> active today.
                 </p>
 
                 <div className="p-2.5 rounded-xl bg-zinc-900/40 border border-zinc-900">
@@ -504,7 +504,7 @@ export default function InteractiveAppMockup() {
             <div className="flex-grow flex flex-col overflow-hidden p-4 space-y-3 text-left">
               <div className="flex items-center justify-between border-b pb-2 border-zinc-900">
                 <span className="text-xs font-display font-black text-white uppercase tracking-wider font-bold">Task deck</span>
-                <span className="text-[7.5px] font-mono text-[#00FF52] font-semibold">AsyncStorage</span>
+                <span className="text-[7.5px] font-mono text-[#00FF52] font-semibold">SQLite Storage</span>
               </div>
 
               <form onSubmit={handleAddTask} className="bg-zinc-950 p-2.5 rounded-2xl border border-zinc-900 space-y-1.5 shrink-0">
@@ -673,7 +673,7 @@ export default function InteractiveAppMockup() {
       <div className="flex flex-wrap items-center justify-center mt-3 px-2 text-[10px] font-mono text-zinc-500 gap-2 w-full max-w-[340px] select-none text-center">
         <div className="flex items-center gap-1">
           <ShieldCheck className="w-3.5 h-3.5 text-[#00FF94]" />
-          <span>On-device AsyncStorage — Local Persistence Enabled</span>
+          <span>On-device SQLite SHA-256 Storage Enabled</span>
         </div>
       </div>
     </div>

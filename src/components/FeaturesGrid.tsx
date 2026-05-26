@@ -1,6 +1,4 @@
 import React, { ReactNode } from 'react';
-import DownloadButton from './DownloadButton';
-import { GITHUB_REPO_URL } from '../lib/constants';
 import { 
   FileText, 
   CheckSquare, 
@@ -84,15 +82,15 @@ export default function FeaturesGrid() {
     },
     {
       icon: <Bot className="w-5 h-5" />,
-      title: "Active Private AI Assistant",
-      description: "An absolute powerhouse. Enabled by Groq (LLama-3.3-70B model with full offline context maps). Direct your brain with natural language to make items or run complex queries seamlessly.",
-      badge: "LLama 3.3 Engine"
+      title: "User-Controlled AI Integration",
+      description: "Optional AI assistance powered by your custom API keys (Groq / Gemini) saved securely on-device. Dispatches prompts directly via HTTPS to deliver contextual analysis without third-party brokers holding your keys.",
+      badge: "User Keys"
     },
     {
       icon: <Sparkles className="w-5 h-5" />,
-      title: "Morning Breakfast Brief",
-      description: "Wake up to an intelligent diagnostic sweep of your backlog. A custom generated summary outlining critical path priorities, timeline blockages, and motivational feedback loops.",
-      badge: "Autonomous Feed"
+      title: "Morning Workspace Summary",
+      description: "Compile offline metrics from your backlog upon startup. Prepares a local high-density diagnostic overview summarizing pending projects, due task structures, and priority cards.",
+      badge: "Local Telemetry"
     },
     {
       icon: <Calendar className="w-5 h-5" />,
@@ -133,39 +131,28 @@ export default function FeaturesGrid() {
         ))}
 
         {/* Highlight Banner Card (spanning 1 or more columns depending on layout) */}
-        <div className="p-4 sm:p-6 md:col-span-2 lg:col-span-3 rounded-2xl border border-dashed border-zinc-800 bg-black/40 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 sm:gap-6 overflow-hidden relative">
+        <div className="p-6 md:col-span-2 lg:col-span-3 rounded-2xl border border-dashed border-zinc-800 bg-black/40 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
           <div className="space-y-2 text-left z-10">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-black border border-zinc-800 text-[10px] font-mono text-[#00FF94] font-bold uppercase tracking-wider">
               <CloudOff className="w-3 h-3 inline text-[#00FF94]" />
-              <span>100% OFFLINE PERSISTENCE DESIGNED</span>
+              <span>CLIENT-SIDE OFFLINE INTEGRITY</span>
             </div>
             <h3 className="text-base font-display font-black text-white uppercase">
-              No Cloud. Not Now, Not Ever.
+              Private Local Database System
             </h3>
             <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
-              Every data entity — notes, tags, checklists, schedule events, and metadata records — is written on your device's native AsyncStorage engine in robust schema structures. Works flawlessly deep in airplane cabins, isolated woods, or extreme grid out-zones.
+              Every core entity — notes, tags, checklists, schedule events, and metadata records — resides safely inside on-device SQLite directories. Your productivity sandbox remains functional in any environment, without exposing raw data to central hosted cloud clusters or synchronization brokers.
             </p>
           </div>
-          <div className="flex-shrink-0 flex flex-col w-full md:w-auto items-stretch sm:items-center gap-2.5 sm:gap-3">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-zinc-950 border border-zinc-850 rounded-xl relative">
-                <Bot className="w-6 h-6 text-[#00FF94]" />
-                <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00FF94] rounded-full animate-ping" />
-                <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00FF94] rounded-full" />
-              </div>
-              <span className="text-[11px] font-mono text-zinc-400 font-bold uppercase tracking-wider">
-                Local Core Verified
-              </span>
+          <div className="flex-shrink-0 flex items-center gap-3">
+            <div className="p-3 bg-zinc-950 border border-zinc-850 rounded-xl relative">
+              <Bot className="w-6 h-6 text-[#00FF94]" />
+              <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00FF94] rounded-full animate-ping" />
+              <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#00FF94] rounded-full" />
             </div>
-            <DownloadButton variant="compact" label="Download APK" />
-            <a
-              href={GITHUB_REPO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="text-[10px] font-mono text-zinc-500 hover:text-[#00FF94] uppercase tracking-wider font-bold transition-colors"
-            >
-              View on GitHub
-            </a>
+            <span className="text-[11px] font-mono text-zinc-400 font-bold uppercase tracking-wider">
+              Local Core Verified
+            </span>
           </div>
         </div>
       </div>

@@ -12,8 +12,6 @@ import {
   MessageSquareCode
 } from 'lucide-react';
 import { useState } from 'react';
-import DownloadButton from './DownloadButton';
-import { GITHUB_REPO_URL } from '../lib/constants';
 
 export default function SecurityPhilosophy() {
   const [activePromptIndex, setActivePromptIndex] = useState(0);
@@ -67,15 +65,15 @@ export default function SecurityPhilosophy() {
           </div>
 
           <h2 className="text-2xl md:text-4xl font-display font-black text-white uppercase tracking-tight leading-tight">
-            Designed for Absolute Digital Privacy
+            Designed for Local Data Custody
           </h2>
 
           <p className="text-xs text-zinc-400 leading-relaxed">
-            Every database subscription you sign up for leaves traces of your intelligence on third-party servers. Over time, your schedule, notes, drafts, and strategies become context datasets for advertising algorithms.
+            Standard productivity applications store your notes, schedules, and drafts on proprietary third-party servers. This increases the attack surface for details to be breached, processed, or indexed by proprietary models.
           </p>
 
           <p className="text-xs text-zinc-400 leading-relaxed">
-            <strong>Flowly</strong> enforces a physical custody limit. Since there is no central server, database tables, or sign-in endpoints, it is mathematically impossible for your details to leak, be analyzed, or sold. Your second brain remains strictly in your hand.
+            <strong>Flowly</strong> enforces strict localized execution. Since there is no remote account database, web login, or cloud sync background agent tracking your actions, your workspace assets are kept inside your secure physical custody.
           </p>
 
           {/* Quick Metrics */}
@@ -88,18 +86,6 @@ export default function SecurityPhilosophy() {
               <span className="text-[10px] text-zinc-500 uppercase block mb-1">SETUP FEE</span>
               <span className="text-sm font-bold text-[#00FF94]">$0.00 Forever</span>
             </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3 pt-4">
-            <DownloadButton variant="compact" label="Download Flowly APK" />
-            <a
-              href={GITHUB_REPO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="text-[10px] font-mono text-zinc-500 hover:text-[#00FF94] uppercase tracking-wider font-bold transition-colors"
-            >
-              Open source on GitHub
-            </a>
           </div>
         </div>
 
@@ -141,11 +127,11 @@ export default function SecurityPhilosophy() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center gap-2 text-zinc-400">
                 <X className="w-4 h-4 text-rose-500/80 flex-shrink-0" />
-                <span>AI processes your text on external clouds, with risks of retention indexing.</span>
+                <span>AI models retain on-cloud logs and proxy intermediate queries.</span>
               </div>
               <div className="flex items-center gap-2 text-zinc-200">
                 <Check className="w-4 h-4 text-[#00FF94] flex-shrink-0" />
-                <span>AI requests route privately via your local keys or on-device LLama compilation structures.</span>
+                <span>Optional AI endpoints are queried directly from the app container via HTTPS using user keys.</span>
               </div>
             </div>
           </div>
@@ -160,13 +146,13 @@ export default function SecurityPhilosophy() {
           <div className="space-y-1.5 text-left">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-zinc-900 bg-black text-[10px] font-mono text-[#00FF94] font-bold uppercase tracking-widest">
               <MessageSquareCode className="w-3.5 h-3.5 text-[#00FF94]" />
-              <span>NATURAL LANGUAGE COMPLIANCE</span>
+              <span>NATURAL LANGUAGE PROCESSING</span>
             </div>
             <h3 className="text-xl font-display font-black text-white uppercase tracking-tight">
-              Flowly AI Parser: Turn Intention into Structured Records
+              Flowly AI Assistant: Translate Intention to Tables
             </h3>
             <p className="text-xs text-zinc-400 max-w-xl leading-relaxed">
-              Ditch complicated button clicks. Speak or type completely naturally. Flowly AI translates conversational requests into instant database models without displaying confusing JSON codes to you.
+              Use natural voice or text directives to formulate tags, tasks, and notes instantly. Our schema parser constructs clean structured collections directly inside your offline SQLite tables.
             </p>
           </div>
 
