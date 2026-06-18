@@ -652,10 +652,26 @@ export default function App() {
               <Heart className="w-2.5 h-2.5 text-rose-500 fill-rose-500" />
               <span>2026</span>
             </p>
+            <p className="text-[10px] text-zinc-400 font-mono mt-1">
+              Developed by <span className="text-[#00FF94] font-bold">Salar Khan Patan</span>
+            </p>
           </div>
 
         </div>
       </footer>
+
+      {/* 9. DEEP MAJESTIC BRAND OUTRO (Under Footer Big Text) */}
+      <div className="bg-black py-16 border-t border-zinc-900/40 relative overflow-hidden select-none">
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
+        <div className="max-w-5xl mx-auto px-4 md:px-6 flex flex-col items-center justify-center text-center">
+          <p className="text-[10px] font-mono uppercase tracking-[0.4em] text-zinc-600 mb-3">
+            Lead Architect & Developer
+          </p>
+          <h2 className="text-4xl sm:text-6xl md:text-8xl font-black text-center tracking-tighter uppercase font-display bg-clip-text text-transparent bg-gradient-to-b from-zinc-500 via-zinc-700 to-zinc-950 leading-none">
+            Salar Khan Patan
+          </h2>
+        </div>
+      </div>
 
       {/* Embedded High-contrast Documentation Reader */}
       <DocsReader 
