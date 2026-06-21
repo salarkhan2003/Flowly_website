@@ -27,15 +27,55 @@ import DocsReader from './components/DocsReader';
 import WhatsNew from './components/WhatsNew';
 import InstallGuideModal from './components/InstallGuideModal';
 
+// Starts with 421 + 2000 = 2421 downloads, and automatically increments by 100 every single day smoothly in real-time
+function getMockDownloads(): number {
+  const baseDownloads = 2421; // 421 default + 2000 added
+  const startDate = new Date("2026-06-01T00:00:00Z").getTime();
+  const now = Date.now();
+  const diffMs = Math.max(0, now - startDate);
+  const ratePerMs = 100 / (24 * 60 * 60 * 1000); // 100 downloads per day (smoothly distributed)
+  const base = baseDownloads + Math.floor(diffMs * ratePerMs);
+  
+  let clicksOffset = 0;
+  try {
+    const storedOffset = localStorage.getItem('flowly_user_clicks_offset');
+    if (storedOffset) {
+      clicksOffset = parseInt(storedOffset, 10);
+    }
+  } catch (e) {}
+  
+  return base + clicksOffset;
+}
+
+// Starts with 1584 + 4000 = 5584 views, and automatically increments by 100 every single day smoothly in real-time
+function getMockViews(): number {
+  const baseViews = 5584; // 1584 default + 4000 added
+  const startDate = new Date("2026-06-01T00:00:00Z").getTime();
+  const now = Date.now();
+  const diffMs = Math.max(0, now - startDate);
+  const ratePerMs = 100 / (24 * 60 * 60 * 1000); // 100 views per day (smoothly distributed)
+  const base = baseViews + Math.floor(diffMs * ratePerMs);
+  
+  let viewsOffset = 0;
+  try {
+    const storedOffset = localStorage.getItem('flowly_views_offset');
+    if (storedOffset) {
+      viewsOffset = parseInt(storedOffset, 10);
+    }
+  } catch (e) {}
+  
+  return base + viewsOffset;
+}
+
 export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isSetupOpen, setIsSetupOpen] = useState(false);
   
   // Real-time tracking stats state (initialized with intelligent fallbacks so there's never a layout flicker)
   const [stats, setStats] = useState<{ views: number; downloads: number; liveUsers: number }>({
-    views: 1584,
-    downloads: 421,
-    liveUsers: 14
+    views: getMockViews(),
+    downloads: getMockDownloads(),
+    liveUsers: 21
   });
 
   // Track if we fall back to simulated metrics (e.g. on standard static Vercel deployments)
@@ -44,37 +84,27 @@ export default function App() {
   useEffect(() => {
     // Standard initialization of simulated counts cache
     const getCachedStats = () => {
-      let cachedViews = 1584;
-      let cachedDownloads = 421;
+      let cachedViews = getMockViews();
+      let cachedDownloads = getMockDownloads();
       
       try {
-        const storedViews = localStorage.getItem('flowly_local_views');
-        const storedDownloads = localStorage.getItem('flowly_local_downloads');
+        const storedViewsOffset = localStorage.getItem('flowly_views_offset');
         
-        if (storedViews) {
-          cachedViews = parseInt(storedViews, 10);
-        } else {
+        if (!storedViewsOffset) {
           // Unique offset per user
-          cachedViews += Math.floor(Math.random() * 21) + 2;
-          localStorage.setItem('flowly_local_views', String(cachedViews));
-        }
-        
-        if (storedDownloads) {
-          cachedDownloads = parseInt(storedDownloads, 10);
-        } else {
-          // Unique offset per user
-          cachedDownloads += Math.floor(Math.random() * 5) + 1;
-          localStorage.setItem('flowly_local_downloads', String(cachedDownloads));
+          const initialOffset = Math.floor(Math.random() * 21) + 2;
+          localStorage.setItem('flowly_views_offset', String(initialOffset));
+          cachedViews = getMockViews();
         }
       } catch (err) {
         console.warn('LocalStorage reads restricted:', err);
       }
       
       const getLiveUsers = () => {
-        const base = 12;
+        const base = 21; // center between 15 and 30
         const seconds = new Date().getSeconds();
-        const fluctuation = Math.floor(Math.sin((seconds * Math.PI) / 10) * 3) + Math.floor(Math.random() * 3);
-        return Math.max(7, base + fluctuation);
+        const fluctuation = Math.floor(Math.sin((seconds * Math.PI) / 10) * 4) + Math.floor(Math.random() * 3);
+        return Math.min(30, Math.max(15, base + fluctuation));
       };
       
       return { views: cachedViews, downloads: cachedDownloads, liveUsers: getLiveUsers() };
@@ -82,10 +112,10 @@ export default function App() {
 
     // Calculate a temporary active user fluctuate
     const getFluctuatedLive = () => {
-      const base = 12;
+      const base = 21; // center between 15 and 30
       const seconds = new Date().getSeconds();
       const fluctuation = Math.floor(Math.sin((seconds * Math.PI) / 10) * 4) + Math.floor(Math.random() * 3);
-      return Math.max(6, base + fluctuation);
+      return Math.min(30, Math.max(15, base + fluctuation));
     };
 
     // Initialize state instantly from local storage
@@ -95,14 +125,13 @@ export default function App() {
     // Boot-up local view increment
     const runLocalBootIncrement = () => {
       try {
-        const currentViews = parseInt(localStorage.getItem('flowly_local_views') || '1584', 10);
-        const currentDownloads = parseInt(localStorage.getItem('flowly_local_downloads') || '421', 10);
-        const nextViews = currentViews + 1;
+        const currentViewsOffset = parseInt(localStorage.getItem('flowly_views_offset') || '0', 10);
+        const nextViewsOffset = currentViewsOffset + 1;
         
-        localStorage.setItem('flowly_local_views', String(nextViews));
+        localStorage.setItem('flowly_views_offset', String(nextViewsOffset));
         setStats({
-          views: nextViews,
-          downloads: currentDownloads,
+          views: getMockViews(),
+          downloads: getMockDownloads(),
           liveUsers: getFluctuatedLive()
         });
       } catch (e) {}
@@ -163,24 +192,17 @@ export default function App() {
       } else {
         // Run gorgeous organic user growth simulations
         try {
-          let currentViews = parseInt(localStorage.getItem('flowly_local_views') || '1584', 10);
-          let currentDownloads = parseInt(localStorage.getItem('flowly_local_downloads') || '421', 10);
+          let currentViewsOffset = parseInt(localStorage.getItem('flowly_views_offset') || '0', 10);
 
           // 65% chance views increase by 1-2 on active visitors
           if (Math.random() < 0.65) {
-            currentViews += Math.floor(Math.random() * 2) + 1;
-            localStorage.setItem('flowly_local_views', String(currentViews));
-          }
-
-          // 12% chance an install action happens in sandbox
-          if (Math.random() < 0.12) {
-            currentDownloads += 1;
-            localStorage.setItem('flowly_local_downloads', String(currentDownloads));
+            currentViewsOffset += Math.floor(Math.random() * 2) + 1;
+            localStorage.setItem('flowly_views_offset', String(currentViewsOffset));
           }
 
           setStats({
-            views: currentViews,
-            downloads: currentDownloads,
+            views: getMockViews(),
+            downloads: getMockDownloads(),
             liveUsers: getFluctuatedLive()
           });
         } catch (e) {}
@@ -220,12 +242,13 @@ export default function App() {
 
   const handleMockDownloadTrigger = () => {
     try {
-      const currentViews = parseInt(localStorage.getItem('flowly_local_views') || '1584', 10);
-      const currentDownloads = parseInt(localStorage.getItem('flowly_local_downloads') || '421', 10) + 1;
-      localStorage.setItem('flowly_local_downloads', String(currentDownloads));
+      const storedOffset = localStorage.getItem('flowly_user_clicks_offset') || '0';
+      const newOffset = parseInt(storedOffset, 10) + 1;
+      localStorage.setItem('flowly_user_clicks_offset', String(newOffset));
+      
       setStats(prev => ({
         ...prev,
-        downloads: currentDownloads
+        downloads: getMockDownloads()
       }));
     } catch (e) {
       setStats(prev => ({
@@ -302,7 +325,7 @@ export default function App() {
                 <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#00FF94]/80" />
                 <span className="font-semibold text-zinc-550 mr-0.5 hidden md:inline uppercase text-zinc-500">VIEWS:</span>
                 <span className="font-black text-white">
-                  {stats ? stats.views.toLocaleString() : '...'}
+                  {stats ? stats.views.toLocaleString() + "+" : '...'}
                 </span>
               </div>
 
@@ -311,7 +334,7 @@ export default function App() {
                 <Download className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#00FF94]/80" />
                 <span className="font-semibold text-zinc-550 mr-0.5 hidden md:inline uppercase text-zinc-500">INSTALLS:</span>
                 <span className="font-black text-white">
-                  {stats ? stats.downloads.toLocaleString() : '...'}
+                  {stats ? stats.downloads.toLocaleString() + "+" : '...'}
                 </span>
               </div>
             </div>
@@ -373,13 +396,13 @@ export default function App() {
           <div className="flex items-center gap-1">
             <Eye className="w-2.5 h-2.5 text-zinc-500" />
             <span className="text-zinc-500 uppercase">VIEWS:</span>
-            <span className="text-white font-bold">{stats ? stats.views.toLocaleString() : '...'}</span>
+            <span className="text-white font-bold">{stats ? stats.views.toLocaleString() + "+" : '...'}</span>
           </div>
 
           <div className="flex items-center gap-1">
             <Download className="w-2.5 h-2.5 text-zinc-500" />
             <span className="text-zinc-500 uppercase">INSTALLS:</span>
-            <span className="text-white font-bold">{stats ? stats.downloads.toLocaleString() : '...'}</span>
+            <span className="text-white font-bold">{stats ? stats.downloads.toLocaleString() + "+" : '...'}</span>
           </div>
         </div>
       </header>

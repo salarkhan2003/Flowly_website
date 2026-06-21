@@ -1,7 +1,26 @@
 import Redis from "ioredis";
 
 const DEFAULT_VIEWS = 1584;
-const DEFAULT_DOWNLOADS = 421;
+
+// Auto mock function: Starts with 1584 + 4000 = 5584 views, and adds 100 every single day smoothly
+function getLiveMockViews(): number {
+  const baseViews = 5584; // 1584 default + 4000 added
+  const startDate = new Date("2026-06-01T00:00:00Z").getTime();
+  const now = Date.now();
+  const diffMs = Math.max(0, now - startDate);
+  const ratePerMs = 100 / (24 * 60 * 60 * 1000); // 100 views per day
+  return baseViews + Math.floor(diffMs * ratePerMs);
+}
+
+// Auto mock function: Starts with 421 + 2000 = 2421 downloads, and adds 100 every single day smoothly
+function getLiveMockDownloads(): number {
+  const baseDownloads = 2421; // 421 default + 2000 added
+  const startDate = new Date("2026-06-01T00:00:00Z").getTime();
+  const now = Date.now();
+  const diffMs = Math.max(0, now - startDate);
+  const ratePerMs = 100 / (24 * 60 * 60 * 1000); // 100 downloads per day
+  return baseDownloads + Math.floor(diffMs * ratePerMs);
+}
 
 let redis: Redis | null = null;
 const redisUrl = process.env.REDIS_URL || process.env.KV_URL;
@@ -18,10 +37,10 @@ if (redisUrl) {
 }
 
 function getLiveUsers(): number {
-  const base = 12;
+  const base = 21; // center between 15 and 30
   const seconds = new Date().getSeconds();
-  const fluctuation = Math.floor(Math.sin((seconds * Math.PI) / 10) * 3) + Math.floor(Math.random() * 3);
-  return Math.max(7, base + fluctuation);
+  const fluctuation = Math.floor(Math.sin((seconds * Math.PI) / 10) * 4) + Math.floor(Math.random() * 3);
+  return Math.min(30, Math.max(15, base + fluctuation));
 }
 
 export default async function handler(req: any, res: any) {
@@ -34,15 +53,17 @@ export default async function handler(req: any, res: any) {
     return res.status(200).end();
   }
 
-  let views = DEFAULT_VIEWS + 1;
-  let downloads = DEFAULT_DOWNLOADS;
+  let views = getLiveMockViews() + 1;
+  let downloads = getLiveMockDownloads();
 
   if (redis) {
     try {
       const val = await redis.incr("flowly_views");
-      views = val;
+      views = getLiveMockViews() + val;
       const d = await redis.get("flowly_downloads");
-      if (d) downloads = parseInt(d, 10);
+      if (d) {
+        downloads = getLiveMockDownloads() + parseInt(d, 10);
+      }
     } catch (err) {
       console.warn("Redis view update failed in serverless API:", err);
     }
